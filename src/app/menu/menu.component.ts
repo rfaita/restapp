@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { FirebaseListObservable } from 'angularfire2';
+import { AngularFireHelper } from '../helpers/angularfirehelper';
 
 @Component({
   selector: 'app-menu',
@@ -10,8 +11,8 @@ export class MenuComponent implements OnInit {
 
   items: FirebaseListObservable<any[]>;
 
-  constructor(af: AngularFire) {
-    this.items = af.database.list('/menu');
+  constructor(afh: AngularFireHelper) {
+    this.items = afh.af.database.list('/menu');
   }
   ngOnInit() {
   }

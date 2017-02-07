@@ -7,13 +7,13 @@
       <!-- Add spacer, to align navigation to the right -->
       <div class="mdl-layout-spacer"></div>
 
-      <button *ngIf="!!afh.displayName" class="login-avatar mdl-button  mdl-button--icon" id="data_user">
-        <img class="login-avatar-img" [src]="afh.photoURL" [alt]="afh.displayName"/>
+      <button *ngIf="!!lh.user" class="login-avatar mdl-button  mdl-button--icon" id="data_user">
+        <img class="login-avatar-img" [src]="lh.user.photoURL" [alt]="lh.user.displayName"/>
       </button>
-      <ul *ngIf="!!afh.displayName" class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="data_user">
-        <li disabled class="mdl-menu__item mdl-menu__item--full-bleed-divider">Olá, {{afh.displayName}}</li>
+      <ul *ngIf="!!lh.user" class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="data_user">
+        <li disabled class="mdl-menu__item mdl-menu__item--full-bleed-divider">Olá, {{lh.user.displayName}}</li>
         <li class="mdl-menu__item">Seu perfil</li>
-        <li class="mdl-menu__item">Contact</li>
+        <li *ngIf="!ch.checkIn" class="mdl-menu__item" (click)="checkIn()">Check-In</li>
         <li class="mdl-menu__item mdl-menu__item--full-bleed-divider">Legal information</li>
         <li class="mdl-menu__item" (click)="logout()">Sair</li>
       </ul>
@@ -28,8 +28,10 @@
     </nav>
   </div>
   <main class="mdl-layout__content">
-    <div class="page-content">
-      <router-outlet></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
   </main>
+  <div #snackbar class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+  </div>
 </div>
