@@ -2,6 +2,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AboutComponent } from "./about/about.component";
 import { MenuComponent } from "./menu/menu.component";
+import { LoginComponent } from "./login/login.component";
 
 // Route Configuration
 export const routes: Routes = [
@@ -10,13 +11,9 @@ export const routes: Routes = [
         redirectTo: '/about',
         pathMatch: 'full'
     },
+    { path: 'login', component: LoginComponent },
     { path: 'menu', component: MenuComponent },
     { path: 'about', component: AboutComponent }
 ];
-
-// Deprecated provide
-// export const APP_ROUTER_PROVIDERS = [
-//   provideRouter(routes)
-// ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

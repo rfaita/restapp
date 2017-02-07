@@ -1,0 +1,8 @@
+.login-list {
+    margin: 0px;
+    padding: 0px;
+}
+
+.mdl-list__item button {
+    width:100%;
+}
