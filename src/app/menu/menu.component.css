@@ -1,0 +1,39 @@
+.menu-card-wide.mdl-card {
+    width: 320px;
+    height: 320px;
+    float: left;
+    margin: 1rem;
+    position: relative; 
+}
+
+.menu-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: center / cover;
+  margin:0px;
+  padding:0px;
+}
+
+.mdl-card__title-text {
+    width: 100%;
+    padding: 10px;
+    text-shadow: 1px 1px 3px #000;
+}
+
+.menu-card-wide > .mdl-card__menu {
+  color: #fff;
+}
+
+.mdl-card__actions {
+	display: flex;
+	box-sizing:border-box;
+	align-items: center;
+}
+.mdl-card__actions > .mdl-button--icon {
+	margin-right: 3px;
+	margin-left: 3px;
+}
+
+.mdl-chip {
+    opacity: .8;
+}
