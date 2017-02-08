@@ -1,4 +1,3 @@
-import { User } from './user';
 export class CheckIn {
     public uid: string;
     public initDate: number;

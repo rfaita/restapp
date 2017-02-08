@@ -1,0 +1,19 @@
+{
+    "rules": {
+        "menu": {
+            ".read": "true"
+        },
+        "users": {
+            "$user_id": {
+                ".read": "$user_id === auth.uid",
+                "lastCheckIn": {
+                    "orders": {
+                        "$order": {
+                            ".write": "$user_id === auth.uid && ((!data.exists() && newData.exists() )|| data.child('time').val() > (now - 10000))"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

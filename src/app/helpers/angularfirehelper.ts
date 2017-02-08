@@ -31,16 +31,24 @@ export class AngularFireHelper {
 
   checkIn() {
     let newCheckIn: CheckIn = new CheckIn();
+    newCheckIn.uid = this.lh.user.uid;
     newCheckIn.initDate = new Date().getTime();
 
-    this.lh.user.lastCheckIn = newCheckIn;
+    this.lastCheckInRef().set(newCheckIn);
     return this.updateUser().then(() => {
       this.subscribeLastCheckIn();
     });
+
+
+
+  }
+
+  menuRef() {
+    return this.af.database.list('/menu');
   }
 
   updateUser() {
-    return this.af.database.object("/user/" + this.lh.user.uid).set(this.lh.user);
+    return this.af.database.object("/users/" + this.lh.user.uid).set(this.lh.user);
   }
 
   checkOut() {
@@ -48,19 +56,19 @@ export class AngularFireHelper {
   }
 
   lastCheckInRef() {
-    return this.af.database.object("/user/" + this.lh.user.uid + "/lastCheckIn");
+    return this.af.database.object("/last_check_ins/" + this.lh.user.uid);
   }
 
   lastCheckInRefOrders() {
-    return this.af.database.list("/user/" + this.lh.user.uid + "/lastCheckIn/orders");
+    return this.af.database.list("/current_orders/" + this.ch.lastCheckIn.uid + "/dishs");
   }
 
   orderDish(order: Order) {
     return this.lastCheckInRefOrders().push(order);
   }
 
-  removePath(key: string) {
-    return this.af.database.list("/user/" + this.lh.user.uid + "/lastCheckIn/orders/" + key).remove();
+  removeOrderDish(key: string) {
+    return this.af.database.list("/current_orders/" + this.ch.lastCheckIn.uid + "/dishs/" + key).remove();
   }
 
   subscribeUser() {
@@ -76,7 +84,7 @@ export class AngularFireHelper {
           this.lh.user.displayName = auth.facebook.displayName;
           this.lh.user.email = auth.facebook.email;
           this.lh.user.photoURL = auth.facebook.photoURL;
-          this.lh.user.uid = auth.facebook.uid;
+          this.lh.user.uid = auth.uid;
 
           this.subscribeLastCheckIn();
 

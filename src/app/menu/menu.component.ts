@@ -19,7 +19,7 @@ export class MenuComponent implements OnInit {
   constructor(private afh: AngularFireHelper,
     private sbh: SnackBarHelper,
     public ch: CheckInHelper) {
-    this.items = afh.af.database.list('/menu');
+    this.items = this.afh.menuRef();
   }
 
   orderDish(uidDish: string, dish: Dish) {
@@ -44,7 +44,7 @@ export class MenuComponent implements OnInit {
 
   private removeLastOrderDish(keyOrder: string) {
     this.working = true;
-    this.afh.removePath(keyOrder).then(() => {
+    this.afh.removeOrderDish(keyOrder).then(() => {
       this.sbh.showInfo("Última solicitação cancelada.");
       this.working = false;
     });
