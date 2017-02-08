@@ -1,10 +1,10 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireHelper } from "./helpers/angularfirehelper";
-import { LoginHelper } from "./helpers/loginhelper";
 import { CheckInHelper } from "./helpers/checkinhelper";
 import { SnackBarHelper } from "./helpers/snackbarhelper";
 import { CheckIn } from './model/checkin';
+import { LoginHelper } from './helpers/loginhelper';
 
 @Component({
   selector: 'app-root',
@@ -12,37 +12,33 @@ import { CheckIn } from './model/checkin';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  public title: string = 'app works!';
-  @ViewChild("snackbar") public snackBar;
+  @ViewChild("snackbar")
+  public snackBar: ElementRef;
 
   constructor(public afh: AngularFireHelper,
     public lh: LoginHelper,
     public ch: CheckInHelper,
-    public sbh: SnackBarHelper,
+    private sbh: SnackBarHelper,
     private router: Router) {
   }
 
   ngOnInit() {
     this.sbh.snackBarRef = this.snackBar;
-
   }
 
   logout() {
-    this.afh.logout().then(() => {
-      this.lh.user = undefined;
-      this.ch.checkIn = undefined;
-    });
+    this.afh.logout();
   }
 
   checkIn() {
-    let newCheckIn: CheckIn = new CheckIn();
-    newCheckIn.user = this.lh.user;
-    newCheckIn.initDate = new Date().getTime();
+    this.afh.checkIn().then(() => {
+      this.sbh.showInfo("Bem vindo. Aguarde a confirmação da mesa.");
+    });
+  }
 
-    this.afh.af.database.list("/checkin").push(newCheckIn).then((item) => {
-      newCheckIn.uid = item.key;
-      this.ch.checkIn = newCheckIn;
-      this.sbh.showInfo("CheckIn realizado.");
+  checkOut() {
+    this.afh.checkOut().then(() => {
+      this.sbh.showInfo("Solicitação de checkout realizada.");
     });
   }
 

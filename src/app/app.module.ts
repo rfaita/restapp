@@ -18,6 +18,7 @@ import { LoginComponent } from './login/login.component'
 import { User } from './model/user';
 import { CheckInHelper } from './helpers/checkinhelper';
 import { SnackBarHelper } from './helpers/snackbarhelper';
+import { OrdersComponent } from './orders/orders.component';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDIlT_RN2-aBRUdqe5NrsFu5hmIv3DRCC8",
@@ -35,7 +36,8 @@ export const firebaseConfig = {
     MdlDirective,
     MenuComponent,
     TruncatePipe,
-    LoginComponent
+    LoginComponent,
+    OrdersComponent
   ],
   imports: [
     MaterialModule.forRoot(),
@@ -51,34 +53,8 @@ export const firebaseConfig = {
 })
 export class AppModule {
 
-  public isLoggedIn: boolean;
-  constructor(public afh: AngularFireHelper,
-    public lh: LoginHelper,
-    public ch: CheckInHelper,
-    private router: Router) {
-    // This asynchronously checks if our user is logged it and will automatically
-    // redirect them to the Login page when the status changes.
-    // This is just a small thing that Firebase does that makes it easy to use.
-    this.afh.af.auth.subscribe(
-      (auth) => {
-        if (auth == null) {
-          this.router.navigate(['login']);
-          this.isLoggedIn = false;
-        } else {
-          this.router.navigate(['']);
-
-          this.lh.user = new User();
-          this.lh.user.displayName = auth.facebook.displayName;
-          this.lh.user.email = auth.facebook.email;
-          this.lh.user.photoURL = auth.facebook.photoURL;
-          this.lh.user.uid = auth.facebook.uid;
-
-          this.ch.checkIn = undefined;
-
-          this.isLoggedIn = true;
-        }
-      }
-    );
+  constructor(public afh: AngularFireHelper) { 
+    this.afh.subscribeUser();
   }
 
 }

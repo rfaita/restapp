@@ -8,7 +8,10 @@ export class SnackBarHelper {
     constructor() { }
 
     showInfo(message: string) {
-        this.snackBarRef.nativeElement.MaterialSnackbar.showSnackbar({ message: message, duration: 2000 });
+        this.snackBarRef.nativeElement.MaterialSnackbar.showSnackbar({ message: message, timeout: 3000 });
+    }
+    showInfoWithAction(message: string, text: string, handler: Function) {
+        this.snackBarRef.nativeElement.MaterialSnackbar.showSnackbar({ message: message, timeout: 3000, actionHandler: handler, actionText: text });
     }
 
 }
