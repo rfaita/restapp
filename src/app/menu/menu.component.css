@@ -36,4 +36,6 @@
 
 .mdl-chip {
     opacity: .8;
+    font-weight: bold;
 }
+

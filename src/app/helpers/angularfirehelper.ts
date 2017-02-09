@@ -60,7 +60,11 @@ export class AngularFireHelper {
   }
 
   lastCheckInRefOrders() {
-    return this.af.database.list("/current_orders/" + this.ch.lastCheckIn.uid + "/dishs");
+    return this.af.database.list("/current_orders/" + this.ch.lastCheckIn.uid + "/dishs", {
+      query: {
+        orderByChild: 'time'
+      }
+    });
   }
 
   orderDish(order: Order) {

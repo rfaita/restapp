@@ -1,27 +1,27 @@
-<div class="menu-card-wide mdl-card mdl-shadow--2dp" *ngFor="let item of items | async">
-  <div class="mdl-card__title" [ngStyle]="{'background-image': 'url(' + item.image + ')'}">
-    <h2 class="mdl-card__title-text">{{item.name}}</h2>
-  </div>
-  <div class="mdl-card__supporting-text">
+<mdl-card class="menu-card-wide" mdl-shadow="2" *ngFor="let item of items | async">
+  <mdl-card-title [ngStyle]="{'background-image': 'url(' + item.image + ')'}">
+    <h2 mdl-card-title-text>{{item.name}}</h2>
+  </mdl-card-title>
+  <mdl-card-supporting-text>
     {{item.description | truncate : 100}}
-  </div>
-  <div class="mdl-card__actions mdl-card--border">
-    <button (click)="orderDish(item.$key, item)" [disabled]="working || (ch.lastCheckIn && !ch.lastCheckIn.table) || !!ch.lastCheckIn.orderedCheckOut" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Solicitar</button>
+  </mdl-card-supporting-text>
+  <mdl-card-actions mdl-card-border>
+    <button mdl-button mdl-colored="primary" mdl-ripple (click)="orderDish(item.$key, item)" [disabled]="working || (ch.lastCheckIn && !ch.lastCheckIn.table) || !!ch.lastCheckIn.orderedCheckOut">Solicitar</button>
     <div class="mdl-layout-spacer"></div>
-    <button class="mdl-button mdl-button--icon mdl-button--colored">
-      <i class="material-icons">star_border</i>
+    <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon">
+      <mdl-icon>star_border</mdl-icon>
     </button>
-    <button id="info" class="mdl-button mdl-button--icon mdl-button--colored">
-      <i class="material-icons">info</i>
+    <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon" [mdl-toggle-menu]="moreInfoMenu">
+      <mdl-icon>info</mdl-icon>
     </button>
-    <ul class="mdl-menu mdl-menu--top-right mdl-js-menu" for="info">
-      <li class="mdl-menu__item">Comentários</li>
-      <li class="mdl-menu__item">Ingredientes</li>
-    </ul>
-  </div>
-  <div class="mdl-card__menu">
-    <span class="mdl-chip">
-       <b class="mdl-chip__text">{{item.price | currency : 'BRL':true}}</b>
-    </span>
-  </div>
-</div>
+    <mdl-menu #moreInfoMenu="mdlMenu" mdl-menu-position="top-right">
+      <mdl-menu-item>Comentários</mdl-menu-item>
+      <mdl-menu-item>Ingredientes</mdl-menu-item>
+    </mdl-menu>
+  </mdl-card-actions>
+  <mdl-card-menu>
+    <mdl-chip mdl-label="{{item.price | currency : 'BRL':true}}">
+      
+    </mdl-chip>
+  </mdl-card-menu>
+</mdl-card>

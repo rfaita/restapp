@@ -12,9 +12,7 @@ import { LoginHelper } from './helpers/loginhelper';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  @ViewChild("snackbar")
-  public snackBar: ElementRef;
-
+  
   constructor(public afh: AngularFireHelper,
     public lh: LoginHelper,
     public ch: CheckInHelper,
@@ -23,7 +21,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sbh.snackBarRef = this.snackBar;
+    
   }
 
   logout() {

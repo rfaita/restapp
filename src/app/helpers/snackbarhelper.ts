@@ -1,17 +1,30 @@
 import { Injectable } from "@angular/core";
+import { MdlSnackbarService, MdlSnackbarComponent } from "angular2-mdl";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class SnackBarHelper {
 
-    public snackBarRef
+    constructor(private mdlSnackbarService: MdlSnackbarService) { }
 
-    constructor() { }
-
-    showInfo(message: string) {
-        this.snackBarRef.nativeElement.MaterialSnackbar.showSnackbar({ message: message, timeout: 3000 });
-    }
-    showInfoWithAction(message: string, text: string, handler: Function) {
-        this.snackBarRef.nativeElement.MaterialSnackbar.showSnackbar({ message: message, timeout: 3000, actionHandler: handler, actionText: text });
+    showInfo(m: string, t: string = "", h: () => void = () => { }, hideAction: () => void = () => { }) {
+        let timeOut;
+        let _h = () => {
+            clearTimeout(timeOut);
+            h();
+        };
+        this.mdlSnackbarService.showSnackbar({
+            message: m,
+            action: {
+                handler: _h,
+                text: t
+            }
+        }).subscribe((mdlSnackbarComponent: MdlSnackbarComponent) => {
+            timeOut = setTimeout(() => {
+                mdlSnackbarComponent.hide();
+                hideAction();
+            }, 2750)
+        });
     }
 
 }

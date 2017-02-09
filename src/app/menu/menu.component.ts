@@ -5,6 +5,7 @@ import { CheckInHelper } from '../helpers/checkinhelper';
 import { Order } from '../model/order';
 import { Dish } from '../model/dish';
 import { SnackBarHelper } from '../helpers/snackbarhelper';
+import { MdlSnackbarComponent } from 'angular2-mdl';
 
 @Component({
   selector: 'app-menu',
@@ -35,18 +36,25 @@ export class MenuComponent implements OnInit {
     order.time = new Date().getTime();
 
     this.afh.orderDish(order).then((ordered) => {
-      this.sbh.showInfoWithAction(order.nameDish + " solicitado.", "Cancelar", () => {
-        this.removeLastOrderDish(ordered.key);
-      });
-      this.working = false;
+      this.sbh.showInfo(order.nameDish + " solicitado.", "Cancelar",
+        () => {
+          this.removeLastOrderDish(ordered.key);
+        },
+        () => {
+          this.working = false;
+        });
+
+
     });
   }
 
   private removeLastOrderDish(keyOrder: string) {
     this.working = true;
     this.afh.removeOrderDish(keyOrder).then(() => {
-      this.sbh.showInfo("Última solicitação cancelada.");
-      this.working = false;
+      this.sbh.showInfo("Última solicitação cancelada.", "", () => { }, () => {
+        this.working = false;
+      });
+
     });
   }
 

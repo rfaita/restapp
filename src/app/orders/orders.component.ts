@@ -14,8 +14,8 @@ export class OrdersComponent implements OnInit {
 
   constructor(private afh: AngularFireHelper) {
 
-    this.items = this.afh.lastCheckInRefOrders()
-      .map(items => items.sort((a: Order, b: Order) => b.time - a.time)) as FirebaseListObservable<Order[]>;
+    this.items = this.afh.lastCheckInRefOrders();
+      //.map(items => items.sort((a: Order, b: Order) => b.time - a.time)) as FirebaseListObservable<Order[]>;
   }
 
   ngOnInit() {

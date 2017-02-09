@@ -1,34 +1,31 @@
-<div mdl class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-  <header class="mdl-layout__header">
-    <div class="mdl-layout__header-row">
-      <div class="mdl-layout-spacer"></div>
+<mdl-layout class="mdl-layout--fixed-header">
+  <mdl-layout-header>
+    <mdl-layout-header-row>
+      <mdl-layout-spacer></mdl-layout-spacer>
       <span class="login-name" *ngIf="!!lh.user">Olá, {{lh.user.displayName}}</span>
-      <button *ngIf="!!lh.user" class="login-avatar mdl-button  mdl-button--icon" id="data_user">
-        <img class="login-avatar-img" [src]="lh.user.photoURL" [alt]="lh.user.displayName"/>
-      </button>
-      <ul *ngIf="!!lh.user" class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="data_user">
-        <li class="mdl-menu__item">Seu perfil</li>
-        <li *ngIf="!ch.lastCheckIn || (ch.lastCheckIn && !ch.lastCheckIn.initDate)" class="mdl-menu__item" (click)="checkIn()">Check-In</li>
-        <li *ngIf="ch.lastCheckIn && ch.lastCheckIn.initDate && !ch.lastCheckIn.table" disabled class="mdl-menu__item">Aguardando mesa</li>
-        <li *ngIf="ch.lastCheckIn && !!ch.lastCheckIn.table" class="mdl-menu__item" [routerLink]="['orders']">Sua comanda, mesa {{ch.lastCheckIn.table}}</li>
-        <li *ngIf="ch.lastCheckIn && !!ch.lastCheckIn.table && !ch.lastCheckIn.orderedCheckOut" class="mdl-menu__item" (click)="checkOut()">Solicitar CheckOut</li>
-        <li class="mdl-menu__item mdl-menu__item--full-bleed-divider">Legal information</li>
-        <li class="mdl-menu__item" (click)="logout()">Sair</li>
-      </ul>
-    </div>
-  </header>
-  <div class="mdl-layout__drawer">
-    <span class="mdl-layout-title">{{title}}</span>
+      <button mdl-button mdl-button-type="icon" mdl-ripple class="login-avatar" [mdl-toggle-menu]="userMenu"
+        *ngIf="!!lh.user">
+        <img class="login-avatar-img" [src]="lh.user.photoURL" [alt]="lh.user.displayName" />
+        </button>
+        <mdl-menu #userMenu="mdlMenu" mdl-menu-position="bottom-right">
+          <mdl-menu-item>Seu perfil</mdl-menu-item>
+          <mdl-menu-item *ngIf="!ch.lastCheckIn || (ch.lastCheckIn && !ch.lastCheckIn.initDate)" (click)="checkIn()">Check-In</mdl-menu-item>
+          <mdl-menu-item *ngIf="ch.lastCheckIn && ch.lastCheckIn.initDate && !ch.lastCheckIn.table" disabled>Aguardando mesa</mdl-menu-item>
+          <mdl-menu-item *ngIf="ch.lastCheckIn && !!ch.lastCheckIn.table" [routerLink]="['orders']">Sua comanda, mesa {{ch.lastCheckIn.table}}</mdl-menu-item>
+          <mdl-menu-item *ngIf="ch.lastCheckIn && !!ch.lastCheckIn.table && !ch.lastCheckIn.orderedCheckOut" (click)="checkOut()">Solicitar CheckOut</mdl-menu-item>
+          <mdl-menu-item mdl-menu-item-full-bleed-divider>Legal information</mdl-menu-item>
+          <mdl-menu-item (click)="logout()">Sair</mdl-menu-item>
+        </mdl-menu>
+    </mdl-layout-header-row>
+  </mdl-layout-header>
+  <mdl-layout-drawer>
+    <mdl-layout-title>{{title}}</mdl-layout-title>
     <nav class="mdl-navigation">
       <a class="mdl-navigation__link" [routerLink]="['menu']">Cardápio</a>
       <a class="mdl-navigation__link" [routerLink]="['about']">Sobre</a>
     </nav>
-  </div>
-  <main class="mdl-layout__content">
+  </mdl-layout-drawer>
+  <mdl-layout-content>
     <router-outlet></router-outlet>
-  </main>
-  <div #snackbar class="mdl-js-snackbar mdl-snackbar">
-    <div class="mdl-snackbar__text"></div>
-    <button class="mdl-snackbar__action" type="button"></button>
-  </div>
-</div>
+  </mdl-layout-content>
+</mdl-layout>

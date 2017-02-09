@@ -3,12 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { MaterialModule } from '@angular/material';
 import { AngularFireModule } from 'angularfire2';
+import { MdlModule } from 'angular2-mdl';
 
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
-import { MdlDirective } from './mdl.directive';
 import { routing } from './app.routes';
 import { MenuComponent } from './menu/menu.component';
 import { TruncatePipe } from './truncate.pipe';
@@ -33,14 +32,13 @@ export const firebaseConfig = {
   declarations: [
     AppComponent,
     AboutComponent,
-    MdlDirective,
     MenuComponent,
     TruncatePipe,
     LoginComponent,
     OrdersComponent
   ],
   imports: [
-    MaterialModule.forRoot(),
+    MdlModule,
     AngularFireModule.initializeApp(firebaseConfig),
     BrowserModule,
     FormsModule,
@@ -53,7 +51,7 @@ export const firebaseConfig = {
 })
 export class AppModule {
 
-  constructor(public afh: AngularFireHelper) { 
+  constructor(public afh: AngularFireHelper) {
     this.afh.subscribeUser();
   }
 
