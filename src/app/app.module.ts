@@ -23,6 +23,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/take';
 
+
 export const firebaseConfig = {
   apiKey: "AIzaSyDIlT_RN2-aBRUdqe5NrsFu5hmIv3DRCC8",
   authDomain: "restapp-64952.firebaseapp.com",

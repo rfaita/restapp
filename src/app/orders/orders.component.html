@@ -1,5 +1,5 @@
 <mdl-list>
-  <mdl-list-item lines=2 *ngFor="let item of items | async">
+  <mdl-list-item lines="2" *ngFor="let item of items | async">
     <mdl-list-item-primary-content>
       <img class="mdl-list__item-avatar" [src]="item.dishImage"/>
       <span>{{item.dishName}}</span>

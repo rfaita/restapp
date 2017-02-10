@@ -9,6 +9,7 @@ import { SnackBarHelper } from '../helpers/snackbarhelper';
 import { MdlSnackbarComponent } from 'angular2-mdl';
 import { LoginHelper } from '../helpers/loginhelper';
 import { Favorite } from '../model/favorite';
+import { Comment } from '../model/comment';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -22,6 +23,9 @@ export class MenuComponent implements OnInit {
   public items: Dish[];
   public favorites: Favorite[];
   private menuObservable: Observable<Dish[]>;
+  public comments: FirebaseListObservable<any[]>;
+
+  private comment: Comment = new Comment();
 
   constructor(private afh: AngularFireHelper,
     private sbh: SnackBarHelper,
@@ -55,6 +59,22 @@ export class MenuComponent implements OnInit {
         });
 
     });
+  }
+
+  loadComments(dish: Dish) {
+    this.comment.did = dish.$key;
+    this.comments = this.afh.commentsByDishRef(dish);
+  }
+
+  addComment() {
+    let did: string = this.comment.did;
+    this.comment.time = new Date().getTime();
+    this.afh.addComment(this.comment).then(() => {
+      this.comment = new Comment();
+      this.comment.did = did;
+    });
+
+
   }
 
   toggleFavorite(dish: Dish) {

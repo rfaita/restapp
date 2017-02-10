@@ -13,7 +13,7 @@ import { LoginHelper } from '../helpers/loginhelper';
 export class OrdersComponent implements OnInit {
 
   public items: FirebaseListObservable<Order[]>;
-
+  
   constructor(private afh: AngularFireHelper, private lh: LoginHelper) {
 
   }
@@ -22,6 +22,8 @@ export class OrdersComponent implements OnInit {
 
     this.items = this.afh.ordersByCheckIn()
       .map(items => items.reverse()) as FirebaseListObservable<Order[]>;
+
+      this.items = this.afh.ordersByCheckIn()
 
   }
 

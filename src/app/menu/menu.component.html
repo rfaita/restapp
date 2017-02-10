@@ -16,13 +16,65 @@
       <mdl-icon>info</mdl-icon>
     </button>
     <mdl-menu #moreInfoMenu="mdlMenu" mdl-menu-position="top-right">
-      <mdl-menu-item>Comentários</mdl-menu-item>
+      <mdl-menu-item (click)="loadComments(item); comentsDialog.show()">Comentários</mdl-menu-item>
       <mdl-menu-item>Ingredientes</mdl-menu-item>
     </mdl-menu>
   </mdl-card-actions>
   <mdl-card-menu>
     <mdl-chip mdl-label="{{item.price | currency : 'BRL':true}}">
-
     </mdl-chip>
   </mdl-card-menu>
 </mdl-card>
+
+
+<mdl-dialog #comentsDialog [mdl-dialog-config]="{
+              clickOutsideToClose: true,
+              styles:{'width': '95%'},
+              isModal:true,
+              enterTransitionDuration: 200,
+              leaveTransitionDuration: 200}">
+  <div class="mdl-dialog__content">
+    <mdl-list>
+      <mdl-list-item lines="2" *ngFor="let comment of comments | async">
+        <mdl-list-item-primary-content>
+          <img class="mdl-list__item-avatar" [src]="comment.userPhotoURL" />
+          <span>{{comment.comment}}</span>
+          <mdl-list-item-sub-title>{{comment.userDisplayName}}</mdl-list-item-sub-title>
+          <mdl-list-item-sub-title>Feito em {{comment.time | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
+        </mdl-list-item-primary-content>
+        <mdl-list-item-secondary-content>
+          <mdl-icon [mdl-badge]="comment.stars">star</mdl-icon>
+        </mdl-list-item-secondary-content>
+      </mdl-list-item>
+    </mdl-list>
+  </div>
+  <div class="mdl-dialog__actions">
+    <mdl-layout-spacer></mdl-layout-spacer>
+    <mdl-textfield type="text" label="Comentário" [(ngModel)]="comment.comment" autofocus></mdl-textfield>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button mdl-button (click)="comentsDialog.close()" mdl-colored="primary" mdl-ripple mdl-button-type="icon"><mdl-icon>close</mdl-icon></button>
+    <button mdl-button (click)="addComment()" mdl-colored="primary" mdl-ripple mdl-button-type="icon"><mdl-icon>comment</mdl-icon></button>
+    <mdl-layout-spacer></mdl-layout-spacer>
+    <button mdl-button (click)="comment.stars=5" mdl-ripple mdl-button-type="icon">
+      <mdl-icon *ngIf="!comment.stars || comment.stars<=4">star_border</mdl-icon>
+      <mdl-icon *ngIf="comment.stars>=5">star</mdl-icon>
+    </button>
+    <button mdl-button (click)="comment.stars=4" mdl-ripple mdl-button-type="icon">
+      <mdl-icon *ngIf="!comment.stars || comment.stars<=4">star_border</mdl-icon>
+      <mdl-icon *ngIf="comment.stars>=4">star</mdl-icon>
+    </button>
+    <button mdl-button (click)="comment.stars=3" mdl-ripple mdl-button-type="icon">
+      <mdl-icon *ngIf="!comment.stars || comment.stars<=2">star_border</mdl-icon>
+      <mdl-icon *ngIf="comment.stars>=3">star</mdl-icon>
+    </button>
+    <button mdl-button (click)="comment.stars=2" mdl-ripple mdl-button-type="icon">
+      <mdl-icon *ngIf="!comment.stars || comment.stars<=1">star_border</mdl-icon>
+      <mdl-icon *ngIf="comment.stars>=2">star</mdl-icon>
+    </button>
+    <button mdl-button (click)="comment.stars=1" mdl-ripple mdl-button-type="icon">
+      <mdl-icon *ngIf="!comment.stars || comment.stars<=0">star_border</mdl-icon>
+      <mdl-icon *ngIf="comment.stars>=1">star</mdl-icon>
+    </button>
+  </div>
+  </mdl-dialog>

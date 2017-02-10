@@ -9,6 +9,7 @@ import { CheckIn } from '../model/checkin';
 import { Subscription } from 'rxjs';
 import { Dish } from '../model/dish';
 import { Favorite } from '../model/favorite';
+import { Comment } from '../model/comment';
 
 @Injectable()
 export class AngularFireHelper {
@@ -129,6 +130,22 @@ export class AngularFireHelper {
     return this.af.database.list("/orders/" + order.$key).remove();
   }
 
+  commentsByDishRef(dish: Dish) {
+    return this.af.database.list('/dish_comments', {
+      query: {
+        orderByChild: "did",
+        equalTo: dish.$key
+      }
+    }).map(items => items.sort((o1: Comment, o2: Comment) => { return o2.time - o1.time })) as FirebaseListObservable<Comment[]>;
+  }
+
+  addComment(comment: Comment) {
+    comment.userDisplayName = this.lh.user.displayName;
+    comment.userPhotoURL = this.lh.user.photoURL;
+    comment.uid = this.lh.user.uid;
+    return this.af.database.list('/dish_comments').push(comment);
+  }
+
   auth() {
     return this.af.auth;
   }
@@ -139,7 +156,7 @@ export class AngularFireHelper {
         if (auth == null) {
           this.router.navigate(['login']);
           this.lh.user = undefined;
-          
+
         } else {
           this.router.navigate(['']);
 
@@ -150,7 +167,7 @@ export class AngularFireHelper {
           this.lh.user.uid = auth.uid;
 
           this.subscribeCheckIn();
-          
+
         }
       }
     );
