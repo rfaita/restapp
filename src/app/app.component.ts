@@ -5,6 +5,7 @@ import { CheckInHelper } from "./helpers/checkinhelper";
 import { SnackBarHelper } from "./helpers/snackbarhelper";
 import { CheckIn } from './model/checkin';
 import { LoginHelper } from './helpers/loginhelper';
+import { FirebaseListObservable } from 'angularfire2';
 
 @Component({
   selector: 'app-root',
@@ -12,16 +13,20 @@ import { LoginHelper } from './helpers/loginhelper';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  
+
+  public categories: FirebaseListObservable<any[]>;
+
   constructor(public afh: AngularFireHelper,
     public lh: LoginHelper,
     public ch: CheckInHelper,
     private sbh: SnackBarHelper,
     private router: Router) {
+
+    this.categories = this.afh.categoriesRef();
   }
 
   ngOnInit() {
-    
+
   }
 
   logout() {

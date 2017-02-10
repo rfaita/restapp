@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FirebaseListObservable } from 'angularfire2';
 import { AngularFireHelper } from '../helpers/angularfirehelper';
 import { CheckInHelper } from '../helpers/checkinhelper';
@@ -6,6 +7,9 @@ import { Order } from '../model/order';
 import { Dish } from '../model/dish';
 import { SnackBarHelper } from '../helpers/snackbarhelper';
 import { MdlSnackbarComponent } from 'angular2-mdl';
+import { LoginHelper } from '../helpers/loginhelper';
+import { Favorite } from '../model/favorite';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -15,42 +19,85 @@ import { MdlSnackbarComponent } from 'angular2-mdl';
 export class MenuComponent implements OnInit {
 
   public working: Boolean;
-  public items: FirebaseListObservable<Dish[]>;
+  public items: Dish[];
+  public favorites: Favorite[];
+  private menuObservable: Observable<Dish[]>;
 
   constructor(private afh: AngularFireHelper,
     private sbh: SnackBarHelper,
-    public ch: CheckInHelper) {
-    this.items = this.afh.menuRef();
+    public ch: CheckInHelper,
+    private lh: LoginHelper,
+    private route: ActivatedRoute) {
+
   }
 
-  orderDish(uidDish: string, dish: Dish) {
+  orderDish(dish: Dish) {
 
     this.working = true;
 
     let order: Order = new Order();
 
-    order.uidDish = uidDish;
-    order.nameDish = dish.name;
-    order.imageDish = dish.image;
+    order.did = dish.$key;
+    order.dishName = dish.name;
+    order.dishImage = dish.image;
     order.price = dish.price;
+    order.cid = this.ch.checkIn.$key;
     order.time = new Date().getTime();
 
     this.afh.orderDish(order).then((ordered) => {
-      this.sbh.showInfo(order.nameDish + " solicitado.", "Cancelar",
+      this.sbh.showInfo(order.dishName + " solicitado.", "Cancelar",
         () => {
-          this.removeLastOrderDish(ordered.key);
+          order.$key = ordered.key
+          this.removeLastOrderDish(order);
         },
         () => {
           this.working = false;
         });
 
-
     });
   }
 
-  private removeLastOrderDish(keyOrder: string) {
+  toggleFavorite(dish: Dish) {
     this.working = true;
-    this.afh.removeOrderDish(keyOrder).then(() => {
+
+    let favorited: Favorite = this.verifyFavoriteDish(dish);
+
+    if (!favorited) {
+
+      let favorite: Favorite = new Favorite();
+      favorite.did = dish.$key;
+      favorite.time = new Date().getTime();
+
+      this.afh.addFavorite(favorite).then(() => {
+        this.sbh.showInfo(dish.name + " adicionado aos favoritos", "", () => { },
+          () => {
+            this.working = false;
+          });
+      });
+    } else {
+      this.afh.removeFavorite(favorited).then(() => {
+        this.sbh.showInfo(dish.name + " removido dos favoritos", "", () => { },
+          () => {
+            this.working = false;
+          });
+      });
+    }
+  }
+
+  verifyFavoriteDish(dish: Dish) {
+    if (this.favorites) {
+      for (let i = 0; i < this.favorites.length; i++) {
+        if (this.favorites[i].did == dish.$key) {
+          return this.favorites[i];
+        }
+      }
+    }
+    return null;
+  }
+
+  private removeLastOrderDish(order: Order) {
+    this.working = true;
+    this.afh.removeOrderDish(order).then(() => {
       this.sbh.showInfo("Última solicitação cancelada.", "", () => { }, () => {
         this.working = false;
       });
@@ -59,6 +106,43 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    let subMenu: Subscription;
+    let subFav: Subscription;
+    this.route.params.subscribe(params => {
+
+      if (subMenu) {
+        subMenu.unsubscribe();
+      }
+      if (subFav) {
+        subFav.unsubscribe();
+      }
+
+      if (params["category"] !== "fav") {
+        subMenu = this.afh.menuRef(params["category"]).subscribe((items) => {
+          this.items = items;
+        });
+      }
+      subFav = this.afh.favoritesRefByUser()
+        .subscribe((favorites) => {
+          if (params["category"] === "fav") {
+            this.items = [];
+            subMenu = this.afh.menuRef().subscribe((items) => {
+              favorites.forEach((favorite) => {
+                items.forEach((item) => {
+                  if (favorite.did === item.$key) {
+                    this.items.push(item);
+                  }
+                });
+
+              });
+            });
+          }
+          this.favorites = favorites;
+        });
+
+    });
+
   }
 
 }

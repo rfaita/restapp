@@ -1,7 +1,10 @@
 export class Order {
-    public nameDish: string;
-    public uidDish: string;
-    public imageDish: string;
+    public $key: string;
+    public dishName: string;
+    public did: string;
+    public dishImage: string;
     public price: number
     public time: number;
+    public cid: string;
+    public uid: string;
 }

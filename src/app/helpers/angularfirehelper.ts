@@ -1,11 +1,14 @@
 import { Injectable } from "@angular/core";
-import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
+import { AngularFire, AuthProviders, AuthMethods, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { User } from '../model/user';
 import { Order } from '../model/order';
 import { LoginHelper } from './loginhelper';
 import { Router } from '@angular/router';
 import { CheckInHelper } from './checkinhelper';
 import { CheckIn } from '../model/checkin';
+import { Subscription } from 'rxjs';
+import { Dish } from '../model/dish';
+import { Favorite } from '../model/favorite';
 
 @Injectable()
 export class AngularFireHelper {
@@ -25,7 +28,49 @@ export class AngularFireHelper {
   logout() {
     return this.af.auth.logout().then(() => {
       this.lh.user = undefined;
-      this.unsubscribeLastCheckIn();
+      this.unsubscribeCheckIn();
+    });
+  }
+
+  updateUser() {
+    return this.af.database.object("/users/" + this.lh.user.uid).set(this.lh.user);
+  }
+
+
+  menuRef(category?: string) {
+    if (category) {
+      return this.af.database.list('/menu',
+        {
+          query: {
+            orderByChild: "category",
+            equalTo: category,
+          }
+        }
+      );
+    } else {
+      return this.af.database.list('/menu');
+    }
+  }
+
+  categoriesRef() {
+    return this.af.database.list('/categories');
+  }
+
+  addFavorite(favorite: Favorite) {
+    favorite.uid = this.lh.user.uid;
+    return this.favoritesRefByUser().push(favorite);
+  }
+
+  removeFavorite(favorite: Favorite) {
+    return this.af.database.object("/favorites/" + favorite.$key).remove();
+  }
+
+  favoritesRefByUser() {
+    return this.af.database.list('/favorites', {
+      query: {
+        orderByChild: "uid",
+        equalTo: this.lh.user.uid
+      }
     });
   }
 
@@ -34,53 +79,67 @@ export class AngularFireHelper {
     newCheckIn.uid = this.lh.user.uid;
     newCheckIn.initDate = new Date().getTime();
 
-    this.lastCheckInRef().set(newCheckIn);
     return this.updateUser().then(() => {
-      this.subscribeLastCheckIn();
+      this.checkInByUserRef().push(newCheckIn).then(() => {
+        this.subscribeCheckIn();
+      });
     });
-
-
-
-  }
-
-  menuRef() {
-    return this.af.database.list('/menu');
-  }
-
-  updateUser() {
-    return this.af.database.object("/users/" + this.lh.user.uid).set(this.lh.user);
   }
 
   checkOut() {
-    return this.lastCheckInRef().update({ orderedCheckOut: true });
+    return this.af.database.object("/check_ins/" + this.ch.checkIn.$key).update({ orderedCheckOut: true });
   }
 
-  lastCheckInRef() {
-    return this.af.database.object("/last_check_ins/" + this.lh.user.uid);
-  }
-
-  lastCheckInRefOrders() {
-    return this.af.database.list("/current_orders/" + this.ch.lastCheckIn.uid + "/dishs", {
+  checkInByUserRef() {
+    return this.af.database.list("/check_ins/", {
       query: {
-        orderByChild: 'time'
+        orderByChild: "uid",
+        equalTo: this.lh.user.uid,
+        limitToFirst: 1
       }
     });
   }
 
-  orderDish(order: Order) {
-    return this.lastCheckInRefOrders().push(order);
+  subscribeCheckIn() {
+    return this.ch.subscription = this.checkInByUserRef().subscribe((checkIn) => {
+      this.ch.checkIn = checkIn[0];
+    });
   }
 
-  removeOrderDish(key: string) {
-    return this.af.database.list("/current_orders/" + this.ch.lastCheckIn.uid + "/dishs/" + key).remove();
+  unsubscribeCheckIn() {
+    this.ch.subscription.unsubscribe();
+    this.ch.checkIn = undefined;
+  }
+
+  ordersByCheckIn() {
+    return this.af.database.list("/orders/", {
+      query: {
+        orderByChild: "cid",
+        equalTo: this.ch.checkIn.$key
+      }
+    }).map(items => items.sort((o1: Order, o2: Order) => { return o1.time - o2.time })) as FirebaseListObservable<Order[]>;
+  }
+
+  orderDish(order: Order) {
+    order.uid = this.lh.user.uid;
+    return this.ordersByCheckIn().push(order);
+  }
+
+  removeOrderDish(order: Order) {
+    return this.af.database.list("/orders/" + order.$key).remove();
+  }
+
+  auth() {
+    return this.af.auth;
   }
 
   subscribeUser() {
-    this.af.auth.subscribe(
+    this.auth().subscribe(
       (auth) => {
         if (auth == null) {
           this.router.navigate(['login']);
           this.lh.user = undefined;
+          
         } else {
           this.router.navigate(['']);
 
@@ -90,22 +149,10 @@ export class AngularFireHelper {
           this.lh.user.photoURL = auth.facebook.photoURL;
           this.lh.user.uid = auth.uid;
 
-          this.subscribeLastCheckIn();
-
+          this.subscribeCheckIn();
+          
         }
       }
     );
   }
-
-  subscribeLastCheckIn() {
-    this.ch.subscription = this.lastCheckInRef().subscribe((lastCheckIn) => {
-      this.ch.lastCheckIn = lastCheckIn;
-    });
-  }
-
-  unsubscribeLastCheckIn() {
-    this.ch.subscription.unsubscribe();
-    this.ch.lastCheckIn = undefined;
-  }
-
 }

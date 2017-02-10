@@ -1,13 +1,13 @@
-<ul class="demo-list-icon mdl-list">
-  <li class="mdl-list__item mdl-list__item--two-line" *ngFor="let item of items | async">
-    <span class="mdl-list__item-primary-content">
-      <img class=" mdl-list__item-avatar" [src]="item.imageDish"/>
-      <span>{{item.nameDish}}</span>
-    <span class="mdl-list__item-sub-title">Solicitado às {{item.time | date : 'dd/MM/yyyy HH:mm:ss'}}</span>
-    </span>
-    <span class="mdl-list__item-secondary-content">
-      <span class="mdl-list__item-secondary-info">Preço</span>
+<mdl-list>
+  <mdl-list-item lines=2 *ngFor="let item of items | async">
+    <mdl-list-item-primary-content>
+      <img class="mdl-list__item-avatar" [src]="item.dishImage"/>
+      <span>{{item.dishName}}</span>
+      <mdl-list-item-sub-title>Solicitado às {{item.time | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
+    </mdl-list-item-primary-content>
+    <mdl-list-item-secondary-content>
+      <mdl-list-item-secondary-info>Preço</mdl-list-item-secondary-info>
       <span>{{item.price | currency : 'BRL':true}}</span>
-    </span>
-  </li>
-</ul>
+    </mdl-list-item-secondary-content>
+  </mdl-list-item>
+</mdl-list>

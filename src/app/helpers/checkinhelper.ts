@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 @Injectable()
 export class CheckInHelper {
 
-    public lastCheckIn: CheckIn;
+    public checkIn: CheckIn;
     public subscription: Subscription;
 
     constructor() { }

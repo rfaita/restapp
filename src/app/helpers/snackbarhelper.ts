@@ -7,7 +7,7 @@ export class SnackBarHelper {
 
     constructor(private mdlSnackbarService: MdlSnackbarService) { }
 
-    showInfo(m: string, t: string = "", h: () => void = () => { }, hideAction: () => void = () => { }) {
+    showInfo(m: string, t?: string, h?: () => void, hideAction?: () => void) {
         let timeOut;
         let _h = () => {
             clearTimeout(timeOut);
@@ -24,7 +24,7 @@ export class SnackBarHelper {
                 mdlSnackbarComponent.hide();
                 hideAction();
             }, 2750)
-        });
+        }) ;
     }
 
 }

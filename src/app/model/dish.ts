@@ -1,4 +1,5 @@
 export class Dish {
+    public $key: string;
     public name: string;
     public price: number;
     public description: string;

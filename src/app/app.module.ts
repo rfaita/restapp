@@ -13,11 +13,15 @@ import { MenuComponent } from './menu/menu.component';
 import { TruncatePipe } from './truncate.pipe';
 import { AngularFireHelper } from "./helpers/angularfirehelper";
 import { LoginHelper } from "./helpers/loginhelper";
+import { AuthGuard } from "./helpers/authguard";
 import { LoginComponent } from './login/login.component'
 import { User } from './model/user';
 import { CheckInHelper } from './helpers/checkinhelper';
 import { SnackBarHelper } from './helpers/snackbarhelper';
 import { OrdersComponent } from './orders/orders.component';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/take';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDIlT_RN2-aBRUdqe5NrsFu5hmIv3DRCC8",
@@ -46,7 +50,7 @@ export const firebaseConfig = {
     routing
   ],
   providers: [AngularFireHelper, LoginHelper,
-    CheckInHelper, SnackBarHelper],
+    CheckInHelper, SnackBarHelper, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {

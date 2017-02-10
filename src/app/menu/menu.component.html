@@ -1,4 +1,4 @@
-<mdl-card class="menu-card-wide" mdl-shadow="2" *ngFor="let item of items | async">
+<mdl-card class="menu-card-wide" mdl-shadow="2" *ngFor="let item of items">
   <mdl-card-title [ngStyle]="{'background-image': 'url(' + item.image + ')'}">
     <h2 mdl-card-title-text>{{item.name}}</h2>
   </mdl-card-title>
@@ -6,10 +6,11 @@
     {{item.description | truncate : 100}}
   </mdl-card-supporting-text>
   <mdl-card-actions mdl-card-border>
-    <button mdl-button mdl-colored="primary" mdl-ripple (click)="orderDish(item.$key, item)" [disabled]="working || (ch.lastCheckIn && !ch.lastCheckIn.table) || !!ch.lastCheckIn.orderedCheckOut">Solicitar</button>
+    <button mdl-button mdl-colored="primary" mdl-ripple (click)="orderDish(item)" [disabled]="working || (ch.checkIn && !ch.checkIn.table) || (ch.checkIn && !!ch.checkIn.orderedCheckOut)">Solicitar</button>
     <div class="mdl-layout-spacer"></div>
-    <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon">
-      <mdl-icon>star_border</mdl-icon>
+    <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon" (click)="toggleFavorite(item)" [disabled]="working">
+      <mdl-icon *ngIf="!verifyFavoriteDish(item)">star_border</mdl-icon>
+      <mdl-icon *ngIf="verifyFavoriteDish(item)">star</mdl-icon>
     </button>
     <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon" [mdl-toggle-menu]="moreInfoMenu">
       <mdl-icon>info</mdl-icon>
@@ -21,7 +22,7 @@
   </mdl-card-actions>
   <mdl-card-menu>
     <mdl-chip mdl-label="{{item.price | currency : 'BRL':true}}">
-      
+
     </mdl-chip>
   </mdl-card-menu>
 </mdl-card>
