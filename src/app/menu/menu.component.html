@@ -87,7 +87,9 @@
       <mdl-textfield type="text" label="Comentário" [(ngModel)]="comment.comment"></mdl-textfield>
     </div>
     <div class="mdl-dialog__actions">
-      <button mdl-button (click)="addComment()" mdl-colored="primary" mdl-ripple mdl-button-type="icon"><mdl-icon>comment</mdl-icon></button>
+      <button mdl-button (click)="addComment()" mdl-colored="primary" mdl-ripple mdl-button-type="icon">
+        <mdl-icon>comment</mdl-icon>
+      </button>
       <mdl-layout-spacer></mdl-layout-spacer>
       <button mdl-button (click)="comment.stars=5" mdl-ripple mdl-button-type="icon">
       <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=4">star_border</mdl-icon>
