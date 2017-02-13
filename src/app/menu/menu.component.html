@@ -27,7 +27,7 @@
 </mdl-card>
 
 
-<mdl-dialog #ingredientsDialog class="ingredients" [mdl-dialog-config]="{
+<mdl-dialog #ingredientsDialog [mdl-dialog-config]="{
               clickOutsideToClose: true,
               styles:{'width': '90vw', 'height': '100vh', 'padding':'0px'},
               isModal:true,
@@ -37,7 +37,7 @@
     <mdl-layout-spacer></mdl-layout-spacer>
     <button mdl-button (click)="ingredientsDialog.close()" mdl-colored="primary" mdl-ripple mdl-button-type="icon"><mdl-icon>close</mdl-icon></button>
   </div>
-  <div class="mdl-dialog__content">
+  <div class="ingredients__content mdl-dialog__content">
     <mdl-list>
       <mdl-list-item lines="2" *ngFor="let ingredient of ingredients | async">
         <mdl-list-item-primary-content>
@@ -48,7 +48,7 @@
   </div>
   </mdl-dialog>
 
-  <mdl-dialog #comentsDialog class="comments" [mdl-dialog-config]="{
+  <mdl-dialog #comentsDialog [mdl-dialog-config]="{
               clickOutsideToClose: true,
               styles:{'width': '90vw', 'height': '100vh', 'padding':'0px'},
               isModal:true,
@@ -58,7 +58,7 @@
       <mdl-layout-spacer></mdl-layout-spacer>
       <button mdl-button (click)="comentsDialog.close()" mdl-colored="primary" mdl-ripple mdl-button-type="icon"><mdl-icon>close</mdl-icon></button>
     </div>
-    <div class="mdl-dialog__content">
+    <div class="comments__content mdl-dialog__content">
       <mdl-list>
         <mdl-list-item lines="2" *ngFor="let comment of comments | async">
           <mdl-list-item-primary-content>
