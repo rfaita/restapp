@@ -6,6 +6,8 @@ export class Order {
     public table: string;
     public price: number
     public time: number;
+    public timeInitDoing: number;
+    public timeFinishDoing: number;
     public cid: string;
     public uid: string;
     public status: string = "waiting";

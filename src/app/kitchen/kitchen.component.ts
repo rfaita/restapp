@@ -22,9 +22,20 @@ export class KitchenComponent implements OnInit {
 
   }
 
-  changeOrderStatus(order:Order, status:string) {
-    order.status = status;
-    this.afh.updateStatusOrder(order);
+  changeOrderStatusToDoing(order: Order) {
+    let updateOrder: Order = new Order();
+    updateOrder.$key = order.$key;
+    updateOrder.status = "doing";
+    updateOrder.timeInitDoing = new Date().getTime();
+    this.afh.updateOrder(updateOrder);
+  }
+
+  changeOrderStatusToDone(order: Order) {
+    let updateOrder: Order = new Order();
+    updateOrder.$key = order.$key;
+    updateOrder.status = "done";
+    updateOrder.timeFinishDoing = new Date().getTime();
+    this.afh.updateOrder(updateOrder);
   }
 
   ngOnInit() {
@@ -35,7 +46,8 @@ export class KitchenComponent implements OnInit {
 
       this.waitings = this.afh.ordersByStatusAndLocalRef('waiting', local);
       this.doings = this.afh.ordersByStatusAndLocalRef('doing', local);
-      this.dones = this.afh.ordersByStatusAndLocalRef('done', local);
+      this.dones = this.afh.ordersByStatusAndLocalRef('done', local)
+        .map(items => items.filter(item => { return item.timeFinishDoing + 60000 >= new Date().getTime() })) as FirebaseListObservable<Order[]>;
 
     });
 

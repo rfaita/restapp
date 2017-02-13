@@ -12,7 +12,7 @@
       <mdl-list-item-sub-title>Sol. {{item.time | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
     </mdl-list-item-primary-content>
     <mdl-list-item-secondary-action>
-      <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon" (click)="changeOrderStatus(item, 'doing')">
+      <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon" (click)="changeOrderStatusToDoing(item)">
         <mdl-icon >chevron_right</mdl-icon>
       </button>
     </mdl-list-item-secondary-action>
@@ -29,10 +29,10 @@
       <img class="mdl-list__item-avatar" [src]="item.dishImage" />
       <span>{{item.dishName}}</span>
       <mdl-list-item-sub-title>Mesa {{item.table}}</mdl-list-item-sub-title>
-      <mdl-list-item-sub-title>Sol. {{item.time | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
+      <mdl-list-item-sub-title>Iniciado {{item.timeInitDoing | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
     </mdl-list-item-primary-content>
     <mdl-list-item-secondary-action>
-      <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon" (click)="changeOrderStatus(item, 'done')">
+      <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon" (click)="changeOrderStatusToDone(item)">
         <mdl-icon >chevron_right</mdl-icon>
       </button>
     </mdl-list-item-secondary-action>
@@ -49,7 +49,7 @@
       <img class="mdl-list__item-avatar" [src]="item.dishImage" />
       <span>{{item.dishName}}</span>
       <mdl-list-item-sub-title>Mesa {{item.table}}</mdl-list-item-sub-title>
-      <mdl-list-item-sub-title>Sol. {{item.time | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
+      <mdl-list-item-sub-title>Finalizado {{item.timeFinishDoing | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
     </mdl-list-item-primary-content>
   </mdl-list-item>
 </mdl-list>

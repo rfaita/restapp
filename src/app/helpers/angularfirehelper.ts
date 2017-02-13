@@ -145,8 +145,10 @@ export class AngularFireHelper {
     return this.ordersByCheckInRef().push(order);
   }
 
-  updateStatusOrder(order: Order) {
-    return this.af.database.object("/orders/" + order.$key).update({ status: order.status });
+  updateOrder(order: Order) {
+    const key: string = order.$key;
+    delete order.$key;
+    return this.af.database.object("/orders/" + key).update(order);
   }
 
   removeOrderDish(order: Order) {
