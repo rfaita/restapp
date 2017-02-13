@@ -43,9 +43,19 @@
         <mdl-list-item-primary-content>
           <img class="mdl-list__item-avatar" [src]="comment.userPhotoURL" />
           <span>{{comment.comment}}</span>
-          <mdl-list-item-sub-title>{{comment.userDisplayName}}
-            <mdl-icon class="rating" [mdl-badge]="comment.stars">star</mdl-icon>
+          <mdl-list-item-sub-title class="rating">
+            <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=0">star_border</mdl-icon>
+            <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars>=1">star</mdl-icon>
+            <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=1">star_border</mdl-icon>
+            <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars>=2">star</mdl-icon>
+            <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=2">star_border</mdl-icon>
+            <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars>=3">star</mdl-icon>
+            <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=3">star_border</mdl-icon>
+            <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars>=4">star</mdl-icon>
+            <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=4">star_border</mdl-icon>
+            <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars>=5">star</mdl-icon>
           </mdl-list-item-sub-title>
+          <mdl-list-item-sub-title>{{comment.userDisplayName}}</mdl-list-item-sub-title>
           <mdl-list-item-sub-title>{{comment.time | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
         </mdl-list-item-primary-content>
       </mdl-list-item>
@@ -59,24 +69,24 @@
     <button mdl-button (click)="addComment()" mdl-colored="primary" mdl-ripple mdl-button-type="icon"><mdl-icon>comment</mdl-icon></button>
     <mdl-layout-spacer></mdl-layout-spacer>
     <button mdl-button (click)="comment.stars=5" mdl-ripple mdl-button-type="icon">
-      <mdl-icon *ngIf="!comment.stars || comment.stars<=4">star_border</mdl-icon>
-      <mdl-icon *ngIf="comment.stars>=5">star</mdl-icon>
+      <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=4">star_border</mdl-icon>
+      <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars>=5">star</mdl-icon>
     </button>
     <button mdl-button (click)="comment.stars=4" mdl-ripple mdl-button-type="icon">
-      <mdl-icon *ngIf="!comment.stars || comment.stars<=4">star_border</mdl-icon>
-      <mdl-icon *ngIf="comment.stars>=4">star</mdl-icon>
+      <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=4">star_border</mdl-icon>
+      <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars>=4">star</mdl-icon>
     </button>
     <button mdl-button (click)="comment.stars=3" mdl-ripple mdl-button-type="icon">
-      <mdl-icon *ngIf="!comment.stars || comment.stars<=2">star_border</mdl-icon>
-      <mdl-icon *ngIf="comment.stars>=3">star</mdl-icon>
+      <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=2">star_border</mdl-icon>
+      <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars>=3">star</mdl-icon>
     </button>
     <button mdl-button (click)="comment.stars=2" mdl-ripple mdl-button-type="icon">
-      <mdl-icon *ngIf="!comment.stars || comment.stars<=1">star_border</mdl-icon>
-      <mdl-icon *ngIf="comment.stars>=2">star</mdl-icon>
+      <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=1">star_border</mdl-icon>
+      <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars>=2">star</mdl-icon>
     </button>
     <button mdl-button (click)="comment.stars=1" mdl-ripple mdl-button-type="icon">
-      <mdl-icon *ngIf="!comment.stars || comment.stars<=0">star_border</mdl-icon>
-      <mdl-icon *ngIf="comment.stars>=1">star</mdl-icon>
+      <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=0">star_border</mdl-icon>
+      <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars>=1">star</mdl-icon>
     </button>
   </div>
   </mdl-dialog>

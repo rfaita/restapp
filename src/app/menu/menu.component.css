@@ -50,7 +50,7 @@
     overflow-y: scroll;
 }
 
-.mdl-dialog__content .mdl-textfield {
+.mdl-dialog__actions .mdl-textfield {
     width: 100%;
 }
 
@@ -58,12 +58,14 @@
     height: 100%;
     border: 1px solid #CCC;
     margin: 10px;
-    box-shadow: 1px 1px 3px #000;
+    padding: 10px;
+    font-size: 15px;
 }
 
 .mdl-dialog__content .mdl-list__item-primary-content {
     height: 100%;    
     text-align: justify;
+    color: #333;
 }
 
 .mdl-dialog__content .mdl-list__item-avatar {
@@ -74,19 +76,6 @@
     text-align: right;
 }
 
-.mdl-dialog__content .rating {
-    font-size: 20px;
-    margin-left: 10px;
-}
-
-.mdl-dialog__content .mdl-badge {
-    margin-right: 5px;
-}
-
-.mdl-dialog__content .mdl-badge:after {
-    top:-10px;
-    right:-10px;
-    height: 18px;
-    width: 18px;
-    font-size: 10px;
+.mdl-dialog__content .rating .material-icons {
+   font-size: 18px;
 }
