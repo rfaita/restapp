@@ -120,7 +120,7 @@ export class AngularFireHelper {
     this.ch.checkIn = undefined;
   }
 
-  ordersByCheckIn() {
+  ordersByCheckInRef() {
     return this.af.database.list("/orders/", {
       query: {
         orderByChild: "cid",
@@ -129,9 +129,24 @@ export class AngularFireHelper {
     }).map(items => items.sort((o1: Order, o2: Order) => { return o2.time - o1.time })) as FirebaseListObservable<Order[]>;
   }
 
+  ordersByStatusAndLocalRef(status: string, local: string) {
+    return this.af.database.list("/orders/", {
+      query: {
+        orderByChild: "status",
+        equalTo: status
+      }
+    }).map(items => items.filter(item => { return item.destination === local }))
+      .map(items => items.sort((o1: Order, o2: Order) => { return o1.time - o2.time })) as FirebaseListObservable<Order[]>;
+  }
+
+
   orderDish(order: Order) {
     order.uid = this.lh.user.uid;
-    return this.ordersByCheckIn().push(order);
+    return this.ordersByCheckInRef().push(order);
+  }
+
+  updateStatusOrder(order: Order) {
+    return this.af.database.object("/orders/" + order.$key).update({ status: order.status });
   }
 
   removeOrderDish(order: Order) {

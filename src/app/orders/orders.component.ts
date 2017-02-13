@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireHelper } from '../helpers/angularfirehelper';
 import { FirebaseListObservable } from 'angularfire2';
 import { Order } from '../model/order';
-import { LoginHelper } from '../helpers/loginhelper';
-
 
 @Component({
   selector: 'app-orders',
@@ -13,17 +11,14 @@ import { LoginHelper } from '../helpers/loginhelper';
 export class OrdersComponent implements OnInit {
 
   public items: FirebaseListObservable<Order[]>;
-  
-  constructor(private afh: AngularFireHelper, private lh: LoginHelper) {
+
+  constructor(private afh: AngularFireHelper) {
 
   }
 
   ngOnInit() {
 
-    this.items = this.afh.ordersByCheckIn()
-      .map(items => items.reverse()) as FirebaseListObservable<Order[]>;
-
-      this.items = this.afh.ordersByCheckIn()
+    this.items = this.afh.ordersByCheckInRef();
 
   }
 

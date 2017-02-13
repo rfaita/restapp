@@ -1,0 +1,44 @@
+import { Component, OnInit } from '@angular/core';
+import { FirebaseListObservable } from 'angularfire2';
+import { Order } from '../model/order';
+import { AngularFireHelper } from '../helpers/angularfirehelper';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-kitchen',
+  templateUrl: './kitchen.component.html',
+  styleUrls: ['./kitchen.component.css']
+})
+export class KitchenComponent implements OnInit {
+
+
+  public waitings: FirebaseListObservable<Order[]>;
+  public doings: FirebaseListObservable<Order[]>;
+  public dones: FirebaseListObservable<Order[]>;
+
+  constructor(private afh: AngularFireHelper,
+    private route: ActivatedRoute) {
+
+  }
+
+  changeOrderStatus(order:Order, status:string) {
+    order.status = status;
+    this.afh.updateStatusOrder(order);
+  }
+
+  ngOnInit() {
+
+    this.route.params.subscribe(params => {
+
+      const local = params["local"];
+
+      this.waitings = this.afh.ordersByStatusAndLocalRef('waiting', local);
+      this.doings = this.afh.ordersByStatusAndLocalRef('doing', local);
+      this.dones = this.afh.ordersByStatusAndLocalRef('done', local);
+
+    });
+
+
+  }
+}

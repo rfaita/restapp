@@ -42,12 +42,14 @@ export class MenuComponent implements OnInit {
 
     let order: Order = new Order();
 
+    order.table = this.ch.checkIn.table;
     order.did = dish.$key;
     order.dishName = dish.name;
     order.dishImage = dish.image;
     order.price = dish.price;
     order.cid = this.ch.checkIn.$key;
     order.time = new Date().getTime();
+    order.destination = dish.destination;
 
     this.afh.orderDish(order).then((ordered) => {
       this.sbh.showInfo(order.dishName + " solicitado.", "Cancelar",

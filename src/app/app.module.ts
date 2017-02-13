@@ -19,10 +19,10 @@ import { User } from './model/user';
 import { CheckInHelper } from './helpers/checkinhelper';
 import { SnackBarHelper } from './helpers/snackbarhelper';
 import { OrdersComponent } from './orders/orders.component';
+import { KitchenComponent } from './kitchen/kitchen.component';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/take';
-
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDIlT_RN2-aBRUdqe5NrsFu5hmIv3DRCC8",
@@ -40,7 +40,8 @@ export const firebaseConfig = {
     MenuComponent,
     TruncatePipe,
     LoginComponent,
-    OrdersComponent
+    OrdersComponent,
+    KitchenComponent
   ],
   imports: [
     MdlModule,

@@ -1,0 +1,15 @@
+.mdl-list {
+    float:left;
+    width:33%;
+    height:100%;
+    border-right: 1px solid #CCC;
+}
+
+h4 {
+    margin: auto;
+}
+
+.title {
+    padding:0px;
+    border-bottom: 1px solid #CCC;
+}
