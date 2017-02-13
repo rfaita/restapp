@@ -18,6 +18,12 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['']);
     })
   }
+  loginWithGoogle() {
+    this.afh.loginWithGoogle().then((data) => {
+      this.router.navigate(['']);
+    })
+  }
+
 
   ngOnInit() {
   }

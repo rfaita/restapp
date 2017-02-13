@@ -26,6 +26,14 @@ export class AngularFireHelper {
     });
   }
 
+
+  loginWithGoogle() {
+    return this.af.auth.login({
+      provider: AuthProviders.Google,
+      method: AuthMethods.Popup,
+    });
+  }
+
   logout() {
     return this.af.auth.logout().then(() => {
       this.lh.user = undefined;
@@ -118,7 +126,7 @@ export class AngularFireHelper {
         orderByChild: "cid",
         equalTo: this.ch.checkIn.$key
       }
-    }).map(items => items.sort((o1: Order, o2: Order) => { return o1.time - o2.time })) as FirebaseListObservable<Order[]>;
+    }).map(items => items.sort((o1: Order, o2: Order) => { return o2.time - o1.time })) as FirebaseListObservable<Order[]>;
   }
 
   orderDish(order: Order) {
@@ -137,6 +145,15 @@ export class AngularFireHelper {
         equalTo: dish.$key
       }
     }).map(items => items.sort((o1: Comment, o2: Comment) => { return o2.time - o1.time })) as FirebaseListObservable<Comment[]>;
+  }
+
+  ingredientsByDishRef(dish: Dish) {
+    return this.af.database.list('/dish_ingredients', {
+      query: {
+        orderByChild: "did",
+        equalTo: dish.$key
+      }
+    });
   }
 
   addComment(comment: Comment) {
@@ -161,9 +178,16 @@ export class AngularFireHelper {
           this.router.navigate(['']);
 
           this.lh.user = new User();
-          this.lh.user.displayName = auth.facebook.displayName;
-          this.lh.user.email = auth.facebook.email;
-          this.lh.user.photoURL = auth.facebook.photoURL;
+
+          if (auth.facebook) {
+            this.lh.user.displayName = auth.facebook.displayName;
+            this.lh.user.email = auth.facebook.email;
+            this.lh.user.photoURL = auth.facebook.photoURL;
+          } else if (auth.google) {
+            this.lh.user.displayName = auth.google.displayName;
+            this.lh.user.email = auth.google.email;
+            this.lh.user.photoURL = auth.google.photoURL;
+          }
           this.lh.user.uid = auth.uid;
 
           this.subscribeCheckIn();

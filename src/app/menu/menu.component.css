@@ -44,9 +44,15 @@
     text-align: right;
 }
 
-.mdl-dialog__content {
+.comments .mdl-dialog__content {
     padding:0px;
     height: calc(100vh -  140px);
+    overflow-y: scroll;
+}
+
+.ingredients .mdl-dialog__content {
+    padding:0px;
+    height: 100vh;
     overflow-y: scroll;
 }
 

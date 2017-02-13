@@ -23,7 +23,8 @@ export class MenuComponent implements OnInit {
   public items: Dish[];
   public favorites: Favorite[];
   private menuObservable: Observable<Dish[]>;
-  public comments: FirebaseListObservable<any[]>;
+  public comments: FirebaseListObservable<Comment[]>;
+  public ingredients: FirebaseListObservable<any[]>;
 
   private comment: Comment = new Comment();
 
@@ -64,6 +65,10 @@ export class MenuComponent implements OnInit {
   loadComments(dish: Dish) {
     this.comment.did = dish.$key;
     this.comments = this.afh.commentsByDishRef(dish);
+  }
+
+  loadIngredients(dish: Dish) {
+    this.ingredients = this.afh.ingredientsByDishRef(dish);
   }
 
   addComment() {
