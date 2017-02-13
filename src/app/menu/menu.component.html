@@ -29,31 +29,33 @@
 
 <mdl-dialog #comentsDialog [mdl-dialog-config]="{
               clickOutsideToClose: true,
-              styles:{'width': '95%'},
+              styles:{'width': '90vw', 'height': '100vh', 'padding':'0px'},
               isModal:true,
               enterTransitionDuration: 200,
               leaveTransitionDuration: 200}">
+  <div class="mdl-dialog__title">
+    <mdl-layout-spacer></mdl-layout-spacer>
+    <button mdl-button (click)="comentsDialog.close()" mdl-colored="primary" mdl-ripple mdl-button-type="icon"><mdl-icon>close</mdl-icon></button>
+  </div>
   <div class="mdl-dialog__content">
     <mdl-list>
       <mdl-list-item lines="2" *ngFor="let comment of comments | async">
         <mdl-list-item-primary-content>
           <img class="mdl-list__item-avatar" [src]="comment.userPhotoURL" />
           <span>{{comment.comment}}</span>
-          <mdl-list-item-sub-title>{{comment.userDisplayName}}</mdl-list-item-sub-title>
-          <mdl-list-item-sub-title>Feito em {{comment.time | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
+          <mdl-list-item-sub-title>{{comment.userDisplayName}}
+            <mdl-icon class="rating" [mdl-badge]="comment.stars">star</mdl-icon>
+          </mdl-list-item-sub-title>
+          <mdl-list-item-sub-title>{{comment.time | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
         </mdl-list-item-primary-content>
-        <mdl-list-item-secondary-content>
-          <mdl-icon [mdl-badge]="comment.stars">star</mdl-icon>
-        </mdl-list-item-secondary-content>
       </mdl-list-item>
     </mdl-list>
   </div>
   <div class="mdl-dialog__actions">
     <mdl-layout-spacer></mdl-layout-spacer>
-    <mdl-textfield type="text" label="Comentário" [(ngModel)]="comment.comment" autofocus></mdl-textfield>
+    <mdl-textfield type="text" label="Comentário" [(ngModel)]="comment.comment"></mdl-textfield>
   </div>
   <div class="mdl-dialog__actions">
-    <button mdl-button (click)="comentsDialog.close()" mdl-colored="primary" mdl-ripple mdl-button-type="icon"><mdl-icon>close</mdl-icon></button>
     <button mdl-button (click)="addComment()" mdl-colored="primary" mdl-ripple mdl-button-type="icon"><mdl-icon>comment</mdl-icon></button>
     <mdl-layout-spacer></mdl-layout-spacer>
     <button mdl-button (click)="comment.stars=5" mdl-ripple mdl-button-type="icon">
