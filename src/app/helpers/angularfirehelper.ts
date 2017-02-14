@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { AngularFire, AuthProviders, AuthMethods, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
+import { Injectable, Inject } from "@angular/core";
+import { AngularFire, AuthProviders, AuthMethods, FirebaseObjectObservable, FirebaseListObservable, FirebaseApp } from 'angularfire2';
 import { User } from '../model/user';
 import { Order } from '../model/order';
 import { LoginHelper } from './loginhelper';
@@ -15,9 +15,11 @@ import { Comment } from '../model/comment';
 export class AngularFireHelper {
 
   constructor(public af: AngularFire,
+    @Inject(FirebaseApp) private firebaseApp: any,
     private lh: LoginHelper,
     private ch: CheckInHelper,
-    private router: Router) { }
+    private router: Router) {
+  }
 
   loginWithFacebook() {
     return this.af.auth.login({
@@ -45,6 +47,13 @@ export class AngularFireHelper {
     return this.af.database.object("/users/" + this.lh.user.uid).set(this.lh.user);
   }
 
+  addMenu(dish: Dish) {
+    return this.af.database.list("/menu").push(dish);
+  }
+
+  uploadFile(file: File) {
+    return this.firebaseApp.storage().ref().child("images/" + new Date().getTime() + file.name).put(file);
+  }
 
   menuRef(category?: string) {
     if (category) {
@@ -63,6 +72,10 @@ export class AngularFireHelper {
 
   categoriesRef() {
     return this.af.database.list('/categories');
+  }
+
+  destinationsRef() {
+    return this.af.database.list('/destinations');
   }
 
   addFavorite(favorite: Favorite) {

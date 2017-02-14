@@ -1,7 +1,7 @@
 import { Routes, RouterModule, Router } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AngularFireModule } from 'angularfire2';
 import { MdlModule } from 'angular2-mdl';
@@ -20,6 +20,7 @@ import { CheckInHelper } from './helpers/checkinhelper';
 import { SnackBarHelper } from './helpers/snackbarhelper';
 import { OrdersComponent } from './orders/orders.component';
 import { KitchenComponent } from './kitchen/kitchen.component';
+import { DishComponent } from './dish/dish.component';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/take';
@@ -41,13 +42,15 @@ export const firebaseConfig = {
     TruncatePipe,
     LoginComponent,
     OrdersComponent,
-    KitchenComponent
+    KitchenComponent,
+    DishComponent
   ],
   imports: [
     MdlModule,
     AngularFireModule.initializeApp(firebaseConfig),
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     routing
   ],

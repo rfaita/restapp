@@ -1,0 +1,28 @@
+<form novalidate [formGroup]="form">
+  <p>
+    <mdl-textfield label="Nome do prato" type="text" formControlName="name" floating-label disableNativeValidityChecking error-msg="Informe o nome do prato."></mdl-textfield>
+  </p>
+  <p>
+    <mdl-textfield label="Preço" type="number" min="0" step="0.01" formControlName="price" floating-label disableNativeValidityChecking
+      error-msg="Informe o preço do prato."></mdl-textfield>
+  </p>
+  <p>
+    <mdl-textfield label="Descrição" rows="5" maxrows="5" type="text" formControlName="description" floating-label disableNativeValidityChecking
+      error-msg="Informe a descrição do prato."></mdl-textfield>
+  </p>
+  <p>
+    Tipo de prato<br/>
+    <mdl-radio *ngFor="let category of categories | async" [value]="category.name" formControlName="category" mdl-ripple>{{category.name}}</mdl-radio>
+  </p>
+  <p>
+    Destino do prato<br/>
+    <mdl-radio *ngFor="let destination of destinations | async" [value]="destination.value" formControlName="destination" mdl-ripple>{{destination.name}}</mdl-radio>
+  </p>
+  <p>
+    Imagem do prato<br/>
+    <input type="file" accept="image/*" (change)="uploadChangeListener($event)" formControlName="image">
+  </p>
+  <p>
+    <button mdl-button (click)="submit()" [disabled]="!form.valid && !imageUpload" mdl-button-type="raised" mdl-ripple mdl-colored="primary">Salvar</button>
+  </p>
+</form>

@@ -85,3 +85,7 @@
 .mdl-dialog__content .rating .material-icons {
    font-size: 18px;
 }
+
+.mdl-card__supporting-text {
+   height: 60px;
+}
