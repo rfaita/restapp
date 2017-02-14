@@ -1,15 +1,36 @@
+.mdl-layout__header {
+    min-height: 45px;
+}
+
+.mdl-layout__header-row {
+    padding: 0px;
+    height: 45px;
+}
+
 .mdl-list {
     float:left;
-    width:33%;
-    height:100%;
+    width:33.2%;
+    height:calc(100vh - 125px);
     border-right: 1px solid #CCC;
+    overflow-y: scroll
+}
+
+.mdl-list__item {
+    height:95px;
+    margin:0px;
+    padding: 10px;
 }
 
 h4 {
-    margin: auto;
+    width: 33.2%;
+    text-align: center;
+    color: #000;
+    border-right: 1px solid #CCC;
+    height: 45px;
 }
 
 .title {
     padding:0px;
     border-bottom: 1px solid #CCC;
+    height: 50px;
 }
