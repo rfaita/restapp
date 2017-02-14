@@ -1,51 +1,43 @@
-<mdl-layout mdl-layout-fixed-header>
-  <mdl-layout-header mdl-layout-header-transparent>
-    <mdl-layout-header-row>
-      <h4>Esperando</h4>
-      <h4>Iniciado</h4>
-      <h4>Finalizado</h4>
-    </mdl-layout-header-row>
-  </mdl-layout-header>
-  <mdl-layout-content>
-    <mdl-list>
-      <mdl-list-item lines="2" *ngFor="let item of waitings | async" mdl-ripple (click)="changeOrderStatusToDoing(item)">
-        <mdl-list-item-primary-content>
-          <img class="mdl-list__item-avatar" [src]="item.dishImage" />
-          <span>{{item.dishName}}</span>
-          <mdl-list-item-sub-title>Mesa {{item.table}}</mdl-list-item-sub-title>
-          <mdl-list-item-sub-title>Sol. {{item.time | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
-        </mdl-list-item-primary-content>
-        <mdl-list-item-secondary-action>
-          <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon">
+<mdl-list>
+  <h4>Esperando</h4>
+  <mdl-list-item lines="2" *ngFor="let item of waitings | async" mdl-ripple (click)="changeOrderStatusToDoing(item)">
+    <mdl-list-item-primary-content>
+      <img class="mdl-list__item-avatar" [src]="item.dishImage" />
+      <span>{{item.dishName}}</span>
+      <mdl-list-item-sub-title>Mesa {{item.table}}</mdl-list-item-sub-title>
+      <mdl-list-item-sub-title>Sol. {{item.time | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
+    </mdl-list-item-primary-content>
+    <mdl-list-item-secondary-action>
+      <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon">
         <mdl-icon >chevron_right</mdl-icon>
       </button>
-        </mdl-list-item-secondary-action>
-      </mdl-list-item>
-    </mdl-list>
-    <mdl-list>
-      <mdl-list-item lines="2" *ngFor="let item of doings | async" mdl-ripple (click)="changeOrderStatusToDone(item)">
-        <mdl-list-item-primary-content>
-          <img class="mdl-list__item-avatar" [src]="item.dishImage" />
-          <span>{{item.dishName}}</span>
-          <mdl-list-item-sub-title>Mesa {{item.table}}</mdl-list-item-sub-title>
-          <mdl-list-item-sub-title>Iniciado {{item.timeInitDoing | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
-        </mdl-list-item-primary-content>
-        <mdl-list-item-secondary-action>
-          <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon">
+    </mdl-list-item-secondary-action>
+  </mdl-list-item>
+</mdl-list>
+<mdl-list>
+  <h4>Iniciado</h4>
+  <mdl-list-item lines="2" *ngFor="let item of doings | async" mdl-ripple (click)="changeOrderStatusToDone(item)">
+    <mdl-list-item-primary-content>
+      <img class="mdl-list__item-avatar" [src]="item.dishImage" />
+      <span>{{item.dishName}}</span>
+      <mdl-list-item-sub-title>Mesa {{item.table}}</mdl-list-item-sub-title>
+      <mdl-list-item-sub-title>Iniciado {{item.timeInitDoing | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
+    </mdl-list-item-primary-content>
+    <mdl-list-item-secondary-action>
+      <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon">
         <mdl-icon >chevron_right</mdl-icon>
       </button>
-        </mdl-list-item-secondary-action>
-      </mdl-list-item>
-    </mdl-list>
-    <mdl-list>
-      <mdl-list-item lines="2" *ngFor="let item of dones | async" mdl-ripple>
-        <mdl-list-item-primary-content>
-          <img class="mdl-list__item-avatar" [src]="item.dishImage" />
-          <span>{{item.dishName}}</span>
-          <mdl-list-item-sub-title>Mesa {{item.table}}</mdl-list-item-sub-title>
-          <mdl-list-item-sub-title>Finalizado {{item.timeFinishDoing | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
-        </mdl-list-item-primary-content>
-      </mdl-list-item>
-    </mdl-list>
-  </mdl-layout-content>
-</mdl-layout>
+    </mdl-list-item-secondary-action>
+  </mdl-list-item>
+</mdl-list>
+<mdl-list>
+  <h4>Finalizado</h4>
+  <mdl-list-item lines="2" *ngFor="let item of dones | async" mdl-ripple>
+    <mdl-list-item-primary-content>
+      <img class="mdl-list__item-avatar" [src]="item.dishImage" />
+      <span>{{item.dishName}}</span>
+      <mdl-list-item-sub-title>Mesa {{item.table}}</mdl-list-item-sub-title>
+      <mdl-list-item-sub-title>Finalizado {{item.timeFinishDoing | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
+    </mdl-list-item-primary-content>
+  </mdl-list-item>
+</mdl-list>

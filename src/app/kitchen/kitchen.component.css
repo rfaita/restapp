@@ -1,36 +1,23 @@
-.mdl-layout__header {
-    min-height: 45px;
-}
-
-.mdl-layout__header-row {
-    padding: 0px;
-    height: 45px;
+h4 {
+    margin:0px;
+    padding:0px;
+    text-align: center;
+    color: #000;
+    border-bottom: 1px solid #CCC;
+    height: 50px;
+    line-height: 50px;
 }
 
 .mdl-list {
     float:left;
-    width:33.2%;
-    height:calc(100vh - 125px);
+    width: calc(33.3333333333% - 1px);
+    height:calc(100vh - 80px);
     border-right: 1px solid #CCC;
-    overflow-y: scroll
+    overflow-y: scroll;
 }
 
 .mdl-list__item {
     height:95px;
     margin:0px;
     padding: 10px;
-}
-
-h4 {
-    width: 33.2%;
-    text-align: center;
-    color: #000;
-    border-right: 1px solid #CCC;
-    height: 45px;
-}
-
-.title {
-    padding:0px;
-    border-bottom: 1px solid #CCC;
-    height: 50px;
 }

@@ -12,7 +12,6 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class KitchenComponent implements OnInit {
 
-
   public waitings: FirebaseListObservable<Order[]>;
   public doings: FirebaseListObservable<Order[]>;
   public dones: FirebaseListObservable<Order[]>;
@@ -47,7 +46,7 @@ export class KitchenComponent implements OnInit {
       this.waitings = this.afh.ordersByStatusAndLocalRef('waiting', local);
       this.doings = this.afh.ordersByStatusAndLocalRef('doing', local);
       this.dones = this.afh.ordersByStatusAndLocalRef('done', local)
-        .map(items => items.filter(item => { return item.timeFinishDoing + 60000 >= new Date().getTime() })) as FirebaseListObservable<Order[]>;
+        .map(items => items.filter(item => { return item.timeFinishDoing + 600000 >= new Date().getTime() })) as FirebaseListObservable<Order[]>;
 
     });
 
