@@ -1,0 +1,37 @@
+<mdl-list>
+  <mdl-list-item lines="2" *ngFor="let item of items | async" (click)="selectedCheckIn = item">
+    <mdl-list-item-primary-content>
+      <img class="mdl-list__item-avatar" [src]="item.userPhotoURL" />
+      <span>{{item.userDisplayName}}</span>
+      <mdl-list-item-sub-title>Solicitado às {{item.initDate | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
+      <mdl-list-item-sub-title *ngIf="!item.table">Aguardando Mesa</mdl-list-item-sub-title>
+      <mdl-list-item-sub-title *ngIf="!!item.table">Esta na mesa {{item.table}}</mdl-list-item-sub-title>
+    </mdl-list-item-primary-content>
+    <mdl-list-item-secondary-content>
+      <button mdl-button mdl-colored="primary" *ngIf="!item.table" mdl-ripple mdl-button-type="icon" (click)="checkInTableDialog.show()">
+        <i class="fa fa-thumb-tack" aria-hidden="true"></i>
+      </button>
+    </mdl-list-item-secondary-content>
+  </mdl-list-item>
+</mdl-list>
+
+<mdl-dialog #checkInTableDialog [mdl-dialog-config]="{
+              clickOutsideToClose: true,
+              styles:{'width': '300px'},
+              isModal:true,
+              enterTransitionDuration: 200,
+              leaveTransitionDuration: 200}">
+  <div class="mdl-dialog__content">
+    <p class="mdl-dialog__title">Selecione a mesa</p>
+    <mdl-list class="tables">
+      <mdl-list-item *ngFor="let table of tables | async" mdl-ripple (click)="selectedTable = table">
+        <mdl-list-item-primary-content>{{table.name}}</mdl-list-item-primary-content>
+        <mdl-list-item-secondary-content *ngIf="!!selectedTable && table.$key === selectedTable.$key"><mdl-icon>check</mdl-icon></mdl-list-item-secondary-content>
+      </mdl-list-item>
+    </mdl-list>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button mdl-button (click)="checkInSetTable(); checkInTableDialog.close()" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Check-In</button>
+    <button mdl-button (click)="checkInTableDialog.close()" mdl-ripple>Fechar</button>
+  </div>
+  </mdl-dialog>

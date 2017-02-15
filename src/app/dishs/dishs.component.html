@@ -16,10 +16,10 @@
         </mdl-list-item-primary-content>
         <mdl-list-item-secondary-action>
           <button mdl-button mdl-colored="primary" [routerLink]="['/dish', item.$key]" mdl-ripple mdl-button-type="icon">
-            <mdl-icon >edit</mdl-icon>
+            <mdl-icon>edit</mdl-icon>
           </button>
           <button mdl-button mdl-colored="primary" (click)="setRemoveDish(item); deleteDishDialog.show()" mdl-ripple mdl-button-type="icon">
-            <mdl-icon >remove_circle</mdl-icon>
+            <mdl-icon>remove_circle</mdl-icon>
           </button>
         </mdl-list-item-secondary-action>
       </mdl-list-item>
@@ -29,9 +29,8 @@
 
 <mdl-dialog #deleteDishDialog [mdl-dialog-config]="{
               clickOutsideToClose: true,
-              styles:{'width': '30vw'},
+              styles:{'width': '300px'},
               isModal:true,
-              openFrom: editUserButton,
               enterTransitionDuration: 200,
               leaveTransitionDuration: 200}">
   <p class="mdl-dialog__title">Deseja realmente remover?</p>

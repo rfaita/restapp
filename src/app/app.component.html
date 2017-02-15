@@ -8,6 +8,7 @@
         </button>
       <mdl-menu #userMenu="mdlMenu" mdl-menu-position="bottom-right">
         <mdl-menu-item>Seu perfil</mdl-menu-item>
+        <mdl-menu-item [routerLink]="['checkin']">Check-Ins</mdl-menu-item>
         <mdl-menu-item [routerLink]="['kitchen', 'bar']">Bar</mdl-menu-item>
         <mdl-menu-item [routerLink]="['kitchen', 'kitchen']">Cozinha</mdl-menu-item>
         <mdl-menu-item [routerLink]="['dishs']">Pratos</mdl-menu-item>

@@ -92,6 +92,19 @@ export class AngularFireHelper {
     return this.firebaseApp.storage().ref().child(path + new Date().getTime() + file.name).put(file);
   }
 
+  tablesRef() {
+    return this.af.database.list('/tables', {
+      query: {
+        orderByChild: "inUse",
+        equalTo: false
+      }
+    });
+  }
+
+  checkInsRef() {
+    return this.af.database.list('/check_ins');
+  }
+
   menuRef(category?: string) {
     if (category) {
       return this.af.database.list('/menu',
@@ -137,6 +150,8 @@ export class AngularFireHelper {
     let newCheckIn: CheckIn = new CheckIn();
     newCheckIn.uid = this.lh.user.uid;
     newCheckIn.initDate = new Date().getTime();
+    newCheckIn.userDisplayName = this.lh.user.displayName;
+    newCheckIn.userPhotoURL = this.lh.user.photoURL;
 
     return this.updateUser().then(() => {
       this.checkInByUserRef().push(newCheckIn).then(() => {
@@ -147,6 +162,12 @@ export class AngularFireHelper {
 
   checkOut() {
     return this.af.database.object("/check_ins/" + this.ch.checkIn.$key).update({ orderedCheckOut: true });
+  }
+
+  checkInSetTable(checkIn: CheckIn) {
+    return this.af.database.object('/check_ins/' + checkIn.$key).update({ table: checkIn.table, tid: checkIn.tid }).then(() => {
+      this.af.database.object("/tables/" + checkIn.tid).update({ inUse: true });
+    });
   }
 
   checkInByUserRef() {

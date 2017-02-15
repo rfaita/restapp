@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AngularFireModule } from 'angularfire2';
 import { MdlModule } from 'angular2-mdl';
+import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
@@ -23,10 +24,10 @@ import { OrdersComponent } from './orders/orders.component';
 import { KitchenComponent } from './kitchen/kitchen.component';
 import { DishComponent } from './dish/dish.component';
 import { DishsComponent } from './dishs/dishs.component';
+import { CheckinComponent } from './checkin/checkin.component';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/take';
-
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDIlT_RN2-aBRUdqe5NrsFu5hmIv3DRCC8",
@@ -48,10 +49,12 @@ export const firebaseConfig = {
     KitchenComponent,
     DishComponent,
     DishsComponent,
-    FilterPipe
+    FilterPipe,
+    CheckinComponent
   ],
   imports: [
     MdlModule,
+    MdlSelectModule,
     AngularFireModule.initializeApp(firebaseConfig),
     BrowserModule,
     FormsModule,

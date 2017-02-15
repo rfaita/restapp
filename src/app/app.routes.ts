@@ -8,11 +8,13 @@ import { AuthGuard } from './helpers/authguard';
 import { KitchenComponent } from './kitchen/kitchen.component';
 import { DishComponent } from './dish/dish.component';
 import { DishsComponent } from './dishs/dishs.component';
+import { CheckinComponent } from './checkin/checkin.component';
 
 export const routes: Routes = [
 
     { path: 'login', component: LoginComponent },
     { path: 'menu', component: MenuComponent, canActivate: [AuthGuard] },
+    { path: 'checkin', component: CheckinComponent, canActivate: [AuthGuard] },
     { path: 'menu/:category', component: MenuComponent, canActivate: [AuthGuard] },
     { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },
     { path: 'dishs', component: DishsComponent, canActivate: [AuthGuard] },

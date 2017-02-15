@@ -1,0 +1,9 @@
+.tables {
+    height:250px;
+    overflow-y: scroll;
+}
+
+.mdl-dialog__title {
+    font-size: 1.5em;
+    padding:0px;
+}
