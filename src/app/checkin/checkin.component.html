@@ -3,21 +3,26 @@
     <mdl-list-item-primary-content>
       <img class="mdl-list__item-avatar" [src]="item.userPhotoURL" />
       <span>{{item.userDisplayName}}</span>
-      <mdl-list-item-sub-title>Sol. às {{item.initDate | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
-      <mdl-list-item-sub-title *ngIf="!item.orderedCheckOut && !item.table">Aguardando Mesa</mdl-list-item-sub-title>
-      <mdl-list-item-sub-title *ngIf="!item.orderedCheckOut && !!item.table">Esta na mesa {{item.table}}</mdl-list-item-sub-title>
-      <mdl-list-item-sub-title *ngIf="!!item.orderedCheckOut">Aguardando checkout</mdl-list-item-sub-title>
+      <mdl-list-item-sub-title *ngIf="!item.orderCheckOutTime && !item.table">Sol. CheckIn. às {{item.orderCheckInTime | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
+      <mdl-list-item-sub-title *ngIf="!item.orderCheckOutTime && !!item.table">CheckIn. às {{item.checkInTime | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
+      <mdl-list-item-sub-title *ngIf="!!item.orderCheckOutTime && !item.total">Sol. CheckOut. às {{item.orderCheckOutTime | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
+      <mdl-list-item-sub-title *ngIf="!!item.total">CheckOut. às {{item.checkOutTime | date : 'dd/MM/yyyy HH:mm:ss'}}</mdl-list-item-sub-title>
+      <mdl-list-item-sub-title *ngIf="!item.orderCheckOutTime && !item.table">Aguardando Mesa</mdl-list-item-sub-title>
+      <mdl-list-item-sub-title *ngIf="!item.orderCheckOutTime && !!item.table">Esta na mesa {{item.table}}</mdl-list-item-sub-title>
+      <mdl-list-item-sub-title *ngIf="!!item.orderCheckOutTime && !item.total">Aguardando checkout</mdl-list-item-sub-title>
+      <mdl-list-item-sub-title *ngIf="!!item.total">Total da conta {{item.total | currency : 'BRL':true}}</mdl-list-item-sub-title>
     </mdl-list-item-primary-content>
     <mdl-list-item-secondary-content>
       <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon" (click)="checkInOrdersDialog.show()">
         <mdl-icon>view_list</mdl-icon>
       </button>
-      <button mdl-button mdl-colored="primary" *ngIf="!item.orderedCheckOut && !item.table" mdl-ripple mdl-button-type="icon" (click)="checkInTableDialog.show()">
+      <button mdl-button mdl-colored="primary" *ngIf="!item.orderCheckOutTime && !item.table" mdl-ripple mdl-button-type="icon" (click)="checkInTableDialog.show()">
         <mdl-icon>local_offer</mdl-icon>
       </button>
-      <button mdl-button mdl-colored="primary" *ngIf="!!item.orderedCheckOut" mdl-ripple mdl-button-type="icon" (click)="checkOutTableDialog.show()">
+      <button mdl-button mdl-colored="primary" *ngIf="!!item.orderCheckOutTime && !item.total" mdl-ripple mdl-button-type="icon"
+        (click)="checkOutTableDialog.show()">
         <mdl-icon>call_missed_outgoing</mdl-icon>
-      </button>
+        </button>
     </mdl-list-item-secondary-content>
   </mdl-list-item>
 </mdl-list>

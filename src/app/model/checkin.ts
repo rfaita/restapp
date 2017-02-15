@@ -3,9 +3,12 @@ export class CheckIn {
     public uid: string;
     public userPhotoURL: string;
     public userDisplayName: string;
-    public initDate: number;
+    public orderCheckInTime: number;
+    public checkInTime: number;
+    public orderCheckOutTime: number;
+    public checkOutTime: number;
     public tid: string;
     public table: string;
-    public finalDate: number;
-    public orderedCheckOut: boolean;
+    public total: number;
+    public closed: boolean = false;;
 }

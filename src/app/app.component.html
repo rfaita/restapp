@@ -12,10 +12,10 @@
         <mdl-menu-item [routerLink]="['kitchen', 'bar']">Bar</mdl-menu-item>
         <mdl-menu-item [routerLink]="['kitchen', 'kitchen']">Cozinha</mdl-menu-item>
         <mdl-menu-item [routerLink]="['dishs']">Pratos</mdl-menu-item>
-        <mdl-menu-item *ngIf="!ch.checkIn || (ch.checkIn && !ch.checkIn.initDate)" (click)="checkIn()">Check-In</mdl-menu-item>
-        <mdl-menu-item *ngIf="ch.checkIn && ch.checkIn.initDate && !ch.checkIn.table" disabled>Aguardando mesa</mdl-menu-item>
+        <mdl-menu-item *ngIf="!ch.checkIn || (ch.checkIn && !ch.checkIn.orderCheckInTime)" (click)="checkIn()">Check-In</mdl-menu-item>
+        <mdl-menu-item *ngIf="ch.checkIn && ch.checkIn.orderCheckInTime && !ch.checkIn.table" disabled>Aguardando mesa</mdl-menu-item>
         <mdl-menu-item *ngIf="ch.checkIn && !!ch.checkIn.table" [routerLink]="['orders']">Sua comanda, mesa {{ch.checkIn.table}}</mdl-menu-item>
-        <mdl-menu-item *ngIf="ch.checkIn && !!ch.checkIn.table && !ch.checkIn.orderedCheckOut" (click)="checkOut()">Solicitar CheckOut</mdl-menu-item>
+        <mdl-menu-item *ngIf="ch.checkIn && !!ch.checkIn.table && !ch.checkIn.orderCheckOutTime" (click)="checkOut()">Solicitar CheckOut</mdl-menu-item>
         <mdl-menu-item mdl-menu-item-full-bleed-divider>Legal information</mdl-menu-item>
         <mdl-menu-item (click)="logout()">Sair</mdl-menu-item>
       </mdl-menu>

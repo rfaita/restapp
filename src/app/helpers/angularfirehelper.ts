@@ -149,7 +149,7 @@ export class AngularFireHelper {
   checkIn() {
     let newCheckIn: CheckIn = new CheckIn();
     newCheckIn.uid = this.lh.user.uid;
-    newCheckIn.initDate = new Date().getTime();
+    newCheckIn.orderCheckInTime = new Date().getTime();
     newCheckIn.userDisplayName = this.lh.user.displayName;
     newCheckIn.userPhotoURL = this.lh.user.photoURL;
 
@@ -161,11 +161,27 @@ export class AngularFireHelper {
   }
 
   checkOut() {
-    return this.af.database.object("/check_ins/" + this.ch.checkIn.$key).update({ orderedCheckOut: true });
+    return this.af.database.object("/check_ins/" + this.ch.checkIn.$key).update({
+      orderCheckOutTime: new Date().getTime()
+    });
+  }
+
+  checkOutSetTotal(checkIn: CheckIn) {
+    return this.af.database.object('/check_ins/' + checkIn.$key).update({
+      total: checkIn.total,
+      checkOutTime: new Date().getTime(),
+      closed: true
+    }).then(() => {
+      this.af.database.object("/tables/" + checkIn.tid).update({ inUse: false });
+    });
   }
 
   checkInSetTable(checkIn: CheckIn) {
-    return this.af.database.object('/check_ins/' + checkIn.$key).update({ table: checkIn.table, tid: checkIn.tid }).then(() => {
+    return this.af.database.object('/check_ins/' + checkIn.$key).update({
+      table: checkIn.table,
+      tid: checkIn.tid,
+      checkInTime: new Date().getTime()
+    }).then(() => {
       this.af.database.object("/tables/" + checkIn.tid).update({ inUse: true });
     });
   }
@@ -173,11 +189,10 @@ export class AngularFireHelper {
   checkInByUserRef() {
     return this.af.database.list("/check_ins/", {
       query: {
-        orderByChild: "uid",
-        equalTo: this.lh.user.uid,
-        limitToFirst: 1
+        orderByChild: "closed",
+        equalTo: false
       }
-    });
+    }).map(items => items.filter(item => item.uid === this.lh.user.uid)) as FirebaseListObservable<CheckIn[]>;
   }
 
   subscribeCheckIn() {
@@ -190,8 +205,6 @@ export class AngularFireHelper {
     this.ch.subscription.unsubscribe();
     this.ch.checkIn = undefined;
   }
-
-
 
   ordersByCheckInRef(checkIn?: CheckIn) {
     return this.af.database.list("/orders/", {

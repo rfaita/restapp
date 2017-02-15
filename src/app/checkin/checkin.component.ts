@@ -4,6 +4,7 @@ import { FirebaseListObservable } from 'angularfire2';
 import { CheckIn } from '../model/checkin';
 import { SnackBarHelper } from '../helpers/snackbarhelper';
 import { Order } from '../model/order';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-checkin',
@@ -31,12 +32,20 @@ export class CheckinComponent implements OnInit {
 
   calculateCheckOut() {
     let total: number = 0;
-    console.log(this.selectedCheckIn);
-    this.afh.ordersByCheckInRef(this.selectedCheckIn).subscribe(items => items.forEach(
-      item => {
-        total += item.price;
-        console.log(total);
-      })
+    let totalSub:Subscription = this.afh.ordersByCheckInRef(this.selectedCheckIn).subscribe(
+      items => {
+        items.forEach(
+          item => {
+            total += item.price;
+          }
+        );
+        this.selectedCheckIn.total = total;
+        this.afh.checkOutSetTotal(this.selectedCheckIn).then(() => {
+          this.sbh.showInfo("Checkout realizado com sucesso.");
+        });
+        totalSub.unsubscribe();
+        return items;
+      }
     );
   }
 
