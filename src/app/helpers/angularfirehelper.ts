@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { Dish } from '../model/dish';
 import { Favorite } from '../model/favorite';
 import { Comment } from '../model/comment';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AngularFireHelper {
@@ -47,12 +48,48 @@ export class AngularFireHelper {
     return this.af.database.object("/users/" + this.lh.user.uid).set(this.lh.user);
   }
 
-  addMenu(dish: Dish) {
+  dishRef(key: string) {
+    return this.af.database.object("/menu/" + key);
+  }
+
+  addDish(dish: Dish) {
     return this.af.database.list("/menu").push(dish);
   }
 
-  uploadFile(file: File) {
-    return this.firebaseApp.storage().ref().child("images/" + new Date().getTime() + file.name).put(file);
+  updateDish(dish: Dish) {
+    const key: string = dish.$key;
+    delete dish.$key;
+    return this.af.database.object("/menu/" + key).update(dish);
+  }
+
+  removeDish(dish: Dish) {
+    return this.af.database.object("/menu/" + dish.$key).remove();
+  }
+
+  uploadFile(file: File, path?: string): Observable<any> {
+    return new Observable<any>((sub => {
+      let uploadRef = this._uploadFile(file, path);
+      uploadRef.on('state_changed',
+        (snapshot) => {
+          // Observe state change events such as progress, pause, and resume
+          // See below for more detail
+          let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          sub.next(progress);
+        },
+        (error) => {
+          // Handle unsuccessful uploads
+          sub.error(error);
+        },
+        () => {
+          sub.next(uploadRef.snapshot.downloadURL);
+          sub.complete();
+
+        });
+    }));
+  }
+
+  private _uploadFile(file: File, path?: string) {
+    return this.firebaseApp.storage().ref().child(path + new Date().getTime() + file.name).put(file);
   }
 
   menuRef(category?: string) {

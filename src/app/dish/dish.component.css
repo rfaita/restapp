@@ -1,3 +1,10 @@
+div {
+    width:100%;
+}
+
+form {
+    padding:10px;
+}
 p {
     margin:0px;
     margin-bottom:10px;
@@ -5,4 +12,13 @@ p {
 
 .mdl-radio {
     margin-right: 10px;
+}
+
+.mdl-progress {
+    position: fixed;
+    width: 100%;
+}
+
+input[type='file'] {
+  display: none;
 }

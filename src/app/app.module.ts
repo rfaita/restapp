@@ -11,6 +11,7 @@ import { AboutComponent } from './about/about.component';
 import { routing } from './app.routes';
 import { MenuComponent } from './menu/menu.component';
 import { TruncatePipe } from './truncate.pipe';
+import { FilterPipe } from './filter.pipe';
 import { AngularFireHelper } from "./helpers/angularfirehelper";
 import { LoginHelper } from "./helpers/loginhelper";
 import { AuthGuard } from "./helpers/authguard";
@@ -21,9 +22,11 @@ import { SnackBarHelper } from './helpers/snackbarhelper';
 import { OrdersComponent } from './orders/orders.component';
 import { KitchenComponent } from './kitchen/kitchen.component';
 import { DishComponent } from './dish/dish.component';
+import { DishsComponent } from './dishs/dishs.component';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/take';
+
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDIlT_RN2-aBRUdqe5NrsFu5hmIv3DRCC8",
@@ -43,7 +46,9 @@ export const firebaseConfig = {
     LoginComponent,
     OrdersComponent,
     KitchenComponent,
-    DishComponent
+    DishComponent,
+    DishsComponent,
+    FilterPipe
   ],
   imports: [
     MdlModule,

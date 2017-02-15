@@ -1,0 +1,16 @@
+.mdl-dialog__title {
+    font-size: 1.5em;
+}
+
+.mdl-layout__header {
+    min-height: 45px;
+}
+
+.mdl-layout__header-row {
+    height: 45px;
+    padding:0px;
+}
+
+.mdl-layout__header-row button {
+    margin-right: 10px;
+}

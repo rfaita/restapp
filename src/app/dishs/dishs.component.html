@@ -1,0 +1,43 @@
+<mdl-layout mdl-layout-fixed-header>
+  <mdl-layout-header mdl-layout-header-transparent>
+    <mdl-layout-header-row>
+      <mdl-layout-spacer></mdl-layout-spacer>
+      <button mdl-button mdl-colored="primary" [routerLink]="['/dish']" mdl-ripple mdl-button-type="raised"><mdl-icon >add</mdl-icon>Novo</button>
+      <mdl-textfield type="text" label="Procurar..." [(ngModel)]="searchText" icon="search" class="mdl-button--primary"></mdl-textfield>
+    </mdl-layout-header-row>
+  </mdl-layout-header>
+  <mdl-layout-content>
+    <mdl-list>
+      <mdl-list-item lines="2" *ngFor="let item of items | async | filter:searchText">
+        <mdl-list-item-primary-content>
+          <img class="mdl-list__item-avatar" [src]="item.image" />
+          <span>{{item.name}}</span>
+          <mdl-list-item-sub-title>{{item.price | currency : 'BRL':true}}</mdl-list-item-sub-title>
+        </mdl-list-item-primary-content>
+        <mdl-list-item-secondary-action>
+          <button mdl-button mdl-colored="primary" [routerLink]="['/dish', item.$key]" mdl-ripple mdl-button-type="icon">
+            <mdl-icon >edit</mdl-icon>
+          </button>
+          <button mdl-button mdl-colored="primary" (click)="setRemoveDish(item); deleteDishDialog.show()" mdl-ripple mdl-button-type="icon">
+            <mdl-icon >remove_circle</mdl-icon>
+          </button>
+        </mdl-list-item-secondary-action>
+      </mdl-list-item>
+    </mdl-list>
+  </mdl-layout-content>
+</mdl-layout>
+
+<mdl-dialog #deleteDishDialog [mdl-dialog-config]="{
+              clickOutsideToClose: true,
+              styles:{'width': '30vw'},
+              isModal:true,
+              openFrom: editUserButton,
+              enterTransitionDuration: 200,
+              leaveTransitionDuration: 200}">
+  <p class="mdl-dialog__title">Deseja realmente remover?</p>
+
+  <div class="mdl-dialog__actions">
+    <button mdl-button (click)="removeDish(); deleteDishDialog.close()" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Sim</button>
+    <button mdl-button (click)="deleteDishDialog.close()" mdl-ripple>Não</button>
+  </div>
+  </mdl-dialog>
