@@ -191,11 +191,13 @@ export class AngularFireHelper {
     this.ch.checkIn = undefined;
   }
 
-  ordersByCheckInRef() {
+
+
+  ordersByCheckInRef(checkIn?: CheckIn) {
     return this.af.database.list("/orders/", {
       query: {
         orderByChild: "cid",
-        equalTo: this.ch.checkIn.$key
+        equalTo: (checkIn ? checkIn.$key : this.ch.checkIn.$key)
       }
     }).map(items => items.sort((o1: Order, o2: Order) => { return o2.time - o1.time })) as FirebaseListObservable<Order[]>;
   }
