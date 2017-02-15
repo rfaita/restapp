@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs';
 })
 export class CheckinComponent implements OnInit {
 
+  public tax: boolean = false;
+  public perc: number = 10;
   public items: FirebaseListObservable<CheckIn[]>;
   public selectedCheckIn: CheckIn;
   public tables: FirebaseListObservable<any[]>;
@@ -32,13 +34,16 @@ export class CheckinComponent implements OnInit {
 
   calculateCheckOut() {
     let total: number = 0;
-    let totalSub:Subscription = this.afh.ordersByCheckInRef(this.selectedCheckIn).subscribe(
+    let totalSub: Subscription = this.afh.ordersByCheckInRef(this.selectedCheckIn).subscribe(
       items => {
         items.forEach(
           item => {
             total += item.price;
           }
         );
+        if (this.tax) {
+          total *= 1 + (this.perc / 100);
+        }
         this.selectedCheckIn.total = total;
         this.afh.checkOutSetTotal(this.selectedCheckIn).then(() => {
           this.sbh.showInfo("Checkout realizado com sucesso.");
