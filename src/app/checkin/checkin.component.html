@@ -88,7 +88,7 @@
               leaveTransitionDuration: 200}">
       <p class="mdl-dialog__title">Checkout</p>
       <div class="mdl-dialog__content">
-        <mdl-checkbox [(ngModel)]="tax" mdl-ripple>Cobrar taxa garçom?</mdl-checkbox>
+        <mdl-checkbox [(ngModel)]="tax" mdl-ripple>Cobrar taxa de serviço?</mdl-checkbox>
         <mdl-textfield *ngIf="tax" label="Percentual" type="number" min="1" max="100" step="1" [(ngModel)]="perc" floating-label disableNativeValidityChecking></mdl-textfield>
       </div>
       <div class="mdl-dialog__actions">

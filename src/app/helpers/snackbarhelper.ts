@@ -22,9 +22,11 @@ export class SnackBarHelper {
         }).subscribe((mdlSnackbarComponent: MdlSnackbarComponent) => {
             timeOut = setTimeout(() => {
                 mdlSnackbarComponent.hide();
-                hideAction();
+                if (hideAction) {
+                    hideAction();
+                }
             }, 2750)
-        }) ;
+        });
     }
 
 }
