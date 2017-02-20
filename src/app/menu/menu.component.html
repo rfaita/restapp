@@ -6,7 +6,7 @@
     {{item.description | truncate : 100}}
   </mdl-card-supporting-text>
   <mdl-card-actions mdl-card-border>
-    <button mdl-button mdl-colored="primary" mdl-ripple (click)="orderDish(item)" [disabled]="working || (ch.checkIn && !ch.checkIn.table) || (ch.checkIn && !!ch.checkIn.orderCheckOutTime)">Solicitar</button>
+    <button mdl-button mdl-colored="primary" mdl-ripple (click)="orderDish(item)" [disabled]="working || !(!!ch.checkIn && !!ch.checkIn.table && !ch.checkIn.orderCheckOutTime)">Solicitar</button>
     <div class="mdl-layout-spacer"></div>
     <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon" (click)="toggleFavorite(item)" [disabled]="working">
       <mdl-icon *ngIf="!verifyFavoriteDish(item)">star_border</mdl-icon>

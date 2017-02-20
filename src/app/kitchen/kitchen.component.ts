@@ -25,6 +25,7 @@ export class KitchenComponent implements OnInit {
     let updateOrder: Order = new Order();
     updateOrder.$key = order.$key;
     updateOrder.status = "doing";
+    updateOrder.destination = order.destination;
     updateOrder.timeInitDoing = new Date().getTime();
     this.afh.updateOrder(updateOrder);
   }
@@ -33,6 +34,7 @@ export class KitchenComponent implements OnInit {
     let updateOrder: Order = new Order();
     updateOrder.$key = order.$key;
     updateOrder.status = "done";
+    updateOrder.destination = order.destination;
     updateOrder.timeFinishDoing = new Date().getTime();
     this.afh.updateOrder(updateOrder);
   }
@@ -41,7 +43,7 @@ export class KitchenComponent implements OnInit {
 
     this.route.params.subscribe(params => {
 
-      const local = params["local"];
+      let local = params["local"];
 
       this.waitings = this.afh.ordersByStatusAndLocalRef('waiting', local);
       this.doings = this.afh.ordersByStatusAndLocalRef('doing', local);

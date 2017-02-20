@@ -11,6 +11,7 @@ import { Dish } from '../model/dish';
 import { Favorite } from '../model/favorite';
 import { Comment } from '../model/comment';
 import { Observable } from 'rxjs';
+import { ClearHelper } from './clearhelper';
 
 @Injectable()
 export class AngularFireHelper {
@@ -19,6 +20,7 @@ export class AngularFireHelper {
     @Inject(FirebaseApp) private firebaseApp: any,
     private lh: LoginHelper,
     private ch: CheckInHelper,
+    private clearHelper: ClearHelper,
     private router: Router) {
   }
 
@@ -57,8 +59,7 @@ export class AngularFireHelper {
   }
 
   updateDish(dish: Dish) {
-    const key: string = dish.$key;
-    delete dish.$key;
+    const key: string = this.clearHelper.clear(dish);
     return this.af.database.object("/menu/" + key).update(dish);
   }
 
@@ -130,6 +131,7 @@ export class AngularFireHelper {
 
   addFavorite(favorite: Favorite) {
     favorite.uid = this.lh.user.uid;
+    favorite.time = new Date().getTime();
     return this.favoritesRefByUser().push(favorite);
   }
 
@@ -152,6 +154,7 @@ export class AngularFireHelper {
     newCheckIn.orderCheckInTime = new Date().getTime();
     newCheckIn.userDisplayName = this.lh.user.displayName;
     newCheckIn.userPhotoURL = this.lh.user.photoURL;
+    newCheckIn = CheckIn.buildIndex(newCheckIn);
 
     return this.updateUser().then(() => {
       this.checkInByUserRef().push(newCheckIn).then(() => {
@@ -167,21 +170,22 @@ export class AngularFireHelper {
   }
 
   checkOutSetTotal(checkIn: CheckIn) {
-    return this.af.database.object('/check_ins/' + checkIn.$key).update({
-      total: checkIn.total,
-      checkOutTime: new Date().getTime(),
-      closed: true
-    }).then(() => {
+    checkIn.checkOutTime = new Date().getTime();
+    checkIn.closed = true;
+    checkIn = CheckIn.buildIndex(checkIn);
+    const key: string = this.clearHelper.clear(checkIn);
+
+    return this.af.database.object('/check_ins/' + key).update(checkIn).then(() => {
       this.af.database.object("/tables/" + checkIn.tid).update({ inUse: false });
     });
   }
 
   checkInSetTable(checkIn: CheckIn) {
-    return this.af.database.object('/check_ins/' + checkIn.$key).update({
-      table: checkIn.table,
-      tid: checkIn.tid,
-      checkInTime: new Date().getTime()
-    }).then(() => {
+
+    checkIn.checkInTime = new Date().getTime();
+    const key: string = this.clearHelper.clear(checkIn);
+
+    return this.af.database.object('/check_ins/' + key).update(checkIn).then(() => {
       this.af.database.object("/tables/" + checkIn.tid).update({ inUse: true });
     });
   }
@@ -189,10 +193,10 @@ export class AngularFireHelper {
   checkInByUserRef() {
     return this.af.database.list("/check_ins/", {
       query: {
-        orderByChild: "closed",
-        equalTo: false
+        orderByChild: "_closed_uid",
+        equalTo: "false" + this.lh.user.uid
       }
-    }).map(items => items.filter(item => item.uid === this.lh.user.uid)) as FirebaseListObservable<CheckIn[]>;
+    });
   }
 
   subscribeCheckIn() {
@@ -212,28 +216,30 @@ export class AngularFireHelper {
         orderByChild: "cid",
         equalTo: (checkIn ? checkIn.$key : this.ch.checkIn.$key)
       }
-    }).map(items => items.sort((o1: Order, o2: Order) => { return o2.time - o1.time })) as FirebaseListObservable<Order[]>;
+    }).map(items => items.sort((o1: Order, o2: Order) => { return o1.time - o2.time })) as FirebaseListObservable<Order[]>;
   }
 
   ordersByStatusAndLocalRef(status: string, local: string) {
     return this.af.database.list("/orders/", {
       query: {
-        orderByChild: "status",
-        equalTo: status
+        orderByChild: "_destination_status",
+        equalTo: local + status,
+
       }
-    }).map(items => items.filter(item => { return item.destination === local }))
-      .map(items => items.sort((o1: Order, o2: Order) => { return o1.time - o2.time })) as FirebaseListObservable<Order[]>;
+    }).map(items => items.sort((o1: Order, o2: Order) => { return o1.time - o2.time })) as FirebaseListObservable<Order[]>;
   }
 
 
   orderDish(order: Order) {
     order.uid = this.lh.user.uid;
+    order.time = new Date().getTime();
+    order = Order.buildIndex(order);
     return this.ordersByCheckInRef().push(order);
   }
 
   updateOrder(order: Order) {
-    const key: string = order.$key;
-    delete order.$key;
+    const key: string = this.clearHelper.clear(order);
+    order = Order.buildIndex(order);
     return this.af.database.object("/orders/" + key).update(order);
   }
 
@@ -247,7 +253,8 @@ export class AngularFireHelper {
         orderByChild: "did",
         equalTo: dish.$key
       }
-    }).map(items => items.sort((o1: Comment, o2: Comment) => { return o2.time - o1.time })) as FirebaseListObservable<Comment[]>;
+    }).map(items => items.sort((o1: Comment, o2: Comment) => { return o2.time - o1.time }))
+      .map(items => { return items.splice(0, 15) }) as FirebaseListObservable<Comment[]>;
   }
 
   ingredientsByDishRef(dish: Dish) {
@@ -262,6 +269,7 @@ export class AngularFireHelper {
   addComment(comment: Comment) {
     comment.userDisplayName = this.lh.user.displayName;
     comment.userPhotoURL = this.lh.user.photoURL;
+    comment.time = new Date().getTime();
     comment.uid = this.lh.user.uid;
     return this.af.database.list('/dish_comments').push(comment);
   }

@@ -12,4 +12,14 @@ export class Order {
     public uid: string;
     public status: string = "waiting";
     public destination: string;
+    private _destination_status: string;
+
+    public static buildIndex(order: Order): Order {
+
+        if (order.status !== undefined && order.destination !== undefined) {
+            order._destination_status = "" + order.destination + order.status
+        }
+        return order;
+    }
+
 }

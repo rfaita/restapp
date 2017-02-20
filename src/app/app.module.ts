@@ -28,6 +28,7 @@ import { CheckinComponent } from './checkin/checkin.component';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/take';
+import { ClearHelper } from './helpers/clearhelper';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDIlT_RN2-aBRUdqe5NrsFu5hmIv3DRCC8",
@@ -63,7 +64,7 @@ export const firebaseConfig = {
     routing
   ],
   providers: [AngularFireHelper, LoginHelper,
-    CheckInHelper, SnackBarHelper, AuthGuard],
+    CheckInHelper, SnackBarHelper, AuthGuard, ClearHelper],
   bootstrap: [AppComponent]
 })
 export class AppModule {

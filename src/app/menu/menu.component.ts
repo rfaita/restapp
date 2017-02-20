@@ -48,7 +48,6 @@ export class MenuComponent implements OnInit {
     order.dishImage = dish.image;
     order.price = dish.price;
     order.cid = this.ch.checkIn.$key;
-    order.time = new Date().getTime();
     order.destination = dish.destination;
 
     this.afh.orderDish(order).then((ordered) => {
@@ -75,12 +74,11 @@ export class MenuComponent implements OnInit {
 
   addComment() {
     let did: string = this.comment.did;
-    this.comment.time = new Date().getTime();
+    
     this.afh.addComment(this.comment).then(() => {
       this.comment = new Comment();
       this.comment.did = did;
     });
-
 
   }
 
@@ -93,8 +91,7 @@ export class MenuComponent implements OnInit {
 
       let favorite: Favorite = new Favorite();
       favorite.did = dish.$key;
-      favorite.time = new Date().getTime();
-
+      
       this.afh.addFavorite(favorite).then(() => {
         this.sbh.showInfo(dish.name + " adicionado aos favoritos", "", () => { },
           () => {
