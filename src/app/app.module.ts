@@ -70,7 +70,7 @@ export const firebaseConfig = {
 export class AppModule {
 
   constructor(public afh: AngularFireHelper) {
-    this.afh.subscribeUser();
+    
   }
 
 }

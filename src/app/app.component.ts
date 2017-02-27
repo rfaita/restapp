@@ -16,6 +16,13 @@ export class AppComponent implements OnInit {
 
   public categories: FirebaseListObservable<any[]>;
 
+  public allowedCreateCheckIn: boolean = false;
+  public allowedReadCheckIn: boolean = false;
+  public allowedUpdateCheckIn: boolean = false;
+  public allowedReadOtherCheckIn: boolean = false;
+  public allowedReadOtherOrders: boolean = false;
+  public allowedReadOtherDishs: boolean = false;
+
   constructor(public afh: AngularFireHelper,
     public lh: LoginHelper,
     public ch: CheckInHelper,
@@ -26,6 +33,27 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.afh.subscribeUser().subscribe(() => {
+      if (!!this.lh.user) {
+        this.afh.updateUser().then(() => {
+          this.afh.subscribeCheckIn();
+          this.afh.userRef().subscribe(user => {
+            this.lh.user.role = user.role;
+
+            this.afh.userIsAllowed("check_ins", "c").subscribe(perm => this.allowedCreateCheckIn = perm);
+            this.afh.userIsAllowed("check_ins", "r").subscribe(perm => this.allowedReadCheckIn = perm);
+            this.afh.userIsAllowed("check_ins", "u").subscribe(perm => this.allowedUpdateCheckIn = perm);
+
+            this.afh.userIsAllowed("check_ins", "r", false).subscribe(perm => this.allowedReadOtherCheckIn = perm);
+
+            this.afh.userIsAllowed("orders", "r", false).subscribe(perm => this.allowedReadOtherOrders = perm);
+
+            this.afh.userIsAllowed("dishs", "r", false).subscribe(perm => this.allowedReadOtherDishs = perm);
+
+          });
+        });
+      }
+    });
 
   }
 

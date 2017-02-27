@@ -3,4 +3,5 @@ export class User {
     public photoURL: string;
     public email: string;
     public uid: string;
+    public role: string;
 }

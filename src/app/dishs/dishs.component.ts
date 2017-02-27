@@ -13,7 +13,11 @@ export class DishsComponent implements OnInit {
 
   public items: FirebaseListObservable<Dish[]>;
   private _removeDish: Dish;
-  
+
+  public allowedCreateOtherDishs: boolean = false;
+  public allowedUpdateOtherDishs: boolean = false;
+  public allowedDeleteOtherDishs: boolean = false;
+
   constructor(private afh: AngularFireHelper,
     private sbh: SnackBarHelper) { }
 
@@ -31,6 +35,11 @@ export class DishsComponent implements OnInit {
   ngOnInit() {
 
     this.items = this.afh.menuRef();
+
+
+    this.afh.userIsAllowed("dishs", "c", false).subscribe(perm => this.allowedCreateOtherDishs = perm);
+    this.afh.userIsAllowed("dishs", "u", false).subscribe(perm => this.allowedUpdateOtherDishs = perm);
+    this.afh.userIsAllowed("dishs", "d", false).subscribe(perm => this.allowedDeleteOtherDishs = perm);
 
   }
 

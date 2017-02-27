@@ -21,6 +21,9 @@ export class CheckinComponent implements OnInit {
   public selectedTable: any;
   public orders: FirebaseListObservable<Order[]>;
 
+  public allowedUpdateOtherCheckIn:boolean = false;
+  public allowedReadOtherOrders:boolean = false;
+
   constructor(private afh: AngularFireHelper,
     private sbh: SnackBarHelper) { }
 
@@ -61,6 +64,11 @@ export class CheckinComponent implements OnInit {
   ngOnInit() {
     this.items = this.afh.checkInsRef();
     this.tables = this.afh.tablesRef();
+
+    this.afh.userIsAllowed("check_ins", "u", false).subscribe(perm => this.allowedUpdateOtherCheckIn = perm);
+
+    this.afh.userIsAllowed("orders", "r", false).subscribe(perm => this.allowedReadOtherOrders = perm);
+
   }
 
 }

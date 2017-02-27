@@ -26,6 +26,11 @@ export class MenuComponent implements OnInit {
   public comments: FirebaseListObservable<Comment[]>;
   public ingredients: FirebaseListObservable<any[]>;
 
+  public allowedReadComments: boolean = false;
+  public allowedCreateComments: boolean = false;
+  public allowedCreateFavorites: boolean = false;
+  public allowedDeleteFavorites: boolean = false;
+
   private comment: Comment = new Comment();
 
   constructor(private afh: AngularFireHelper,
@@ -74,7 +79,7 @@ export class MenuComponent implements OnInit {
 
   addComment() {
     let did: string = this.comment.did;
-    
+
     this.afh.addComment(this.comment).then(() => {
       this.comment = new Comment();
       this.comment.did = did;
@@ -91,7 +96,7 @@ export class MenuComponent implements OnInit {
 
       let favorite: Favorite = new Favorite();
       favorite.did = dish.$key;
-      
+
       this.afh.addFavorite(favorite).then(() => {
         this.sbh.showInfo(dish.name + " adicionado aos favoritos", "", () => { },
           () => {
@@ -130,6 +135,12 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.afh.userIsAllowed("dish_comments", "r", false).subscribe(perm => this.allowedReadComments = perm);
+    this.afh.userIsAllowed("dish_comments", "c").subscribe(perm => this.allowedCreateComments = perm);
+
+    this.afh.userIsAllowed("favorites", "c").subscribe(perm => this.allowedCreateFavorites = perm);
+    this.afh.userIsAllowed("favorites", "d").subscribe(perm => this.allowedDeleteFavorites = perm);
 
     let subMenu: Subscription;
     let subFav: Subscription;

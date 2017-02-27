@@ -2,7 +2,7 @@
   <mdl-layout-header mdl-layout-header-transparent>
     <mdl-layout-header-row>
       <mdl-layout-spacer></mdl-layout-spacer>
-      <button mdl-button mdl-colored="primary" [routerLink]="['/dish']" mdl-ripple mdl-button-type="raised"><mdl-icon >add</mdl-icon>Novo</button>
+      <button [disabled]="!allowedCreateOtherDishs" mdl-button mdl-colored="primary" [routerLink]="['/dish']" mdl-ripple mdl-button-type="raised"><mdl-icon >add</mdl-icon>Novo</button>
       <mdl-textfield type="text" label="Procurar..." [(ngModel)]="searchText" icon="search" class="mdl-button--primary"></mdl-textfield>
     </mdl-layout-header-row>
   </mdl-layout-header>
@@ -15,10 +15,10 @@
           <mdl-list-item-sub-title>{{item.price | currency : 'BRL':true}}</mdl-list-item-sub-title>
         </mdl-list-item-primary-content>
         <mdl-list-item-secondary-action>
-          <button mdl-button mdl-colored="primary" [routerLink]="['/dish', item.$key]" mdl-ripple mdl-button-type="icon">
+          <button [disabled]="!allowedUpdateOtherDishs" mdl-button mdl-colored="primary" [routerLink]="['/dish', item.$key]" mdl-ripple mdl-button-type="icon">
             <mdl-icon>edit</mdl-icon>
           </button>
-          <button mdl-button mdl-colored="primary" (click)="setRemoveDish(item); deleteDishDialog.show()" mdl-ripple mdl-button-type="icon">
+          <button [disabled]="!allowedDeleteOtherDishs" mdl-button mdl-colored="primary" (click)="setRemoveDish(item); deleteDishDialog.show()" mdl-ripple mdl-button-type="icon">
             <mdl-icon>remove_circle</mdl-icon>
           </button>
         </mdl-list-item-secondary-action>

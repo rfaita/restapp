@@ -6,7 +6,7 @@ import { LoginHelper } from './loginhelper';
 import { Router } from '@angular/router';
 import { CheckInHelper } from './checkinhelper';
 import { CheckIn } from '../model/checkin';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 import { Dish } from '../model/dish';
 import { Favorite } from '../model/favorite';
 import { Comment } from '../model/comment';
@@ -46,8 +46,12 @@ export class AngularFireHelper {
     });
   }
 
+  userRef() {
+    return this.af.database.object("/users/" + this.lh.user.uid);
+  }
+
   updateUser() {
-    return this.af.database.object("/users/" + this.lh.user.uid).set(this.lh.user);
+    return this.userRef().update(this.lh.user);
   }
 
   dishRef(key: string) {
@@ -156,11 +160,10 @@ export class AngularFireHelper {
     newCheckIn.userPhotoURL = this.lh.user.photoURL;
     newCheckIn = CheckIn.buildIndex(newCheckIn);
 
-    return this.updateUser().then(() => {
-      this.checkInByUserRef().push(newCheckIn).then(() => {
-        this.subscribeCheckIn();
-      });
+    return this.checkInByUserRef().push(newCheckIn).then(() => {
+      this.subscribeCheckIn();
     });
+
   }
 
   checkOut() {
@@ -278,8 +281,19 @@ export class AngularFireHelper {
     return this.af.auth;
   }
 
+  userIsAllowed(entity, permission, ownResources: boolean = true): Observable<boolean> {
+    if (this.lh.user.role === "admin") {
+      return Observable.of(true);
+    } else {
+      return this.af.database.object("/permissions/" +
+        (!this.lh.user.role ? "user" : this.lh.user.role) + "/" + entity + "/" +
+        (ownResources ? "own" : "other") + "/" + permission)
+        .map(perm => { return (this.lh.user && this.lh.user.uid && !!perm) ? perm.$value : false });
+    }
+  }
+
   subscribeUser() {
-    this.auth().subscribe(
+    return this.auth().map(
       (auth) => {
         if (auth == null) {
           this.router.navigate(['login']);
@@ -300,9 +314,6 @@ export class AngularFireHelper {
             this.lh.user.photoURL = auth.google.photoURL;
           }
           this.lh.user.uid = auth.uid;
-
-          this.subscribeCheckIn();
-
         }
       }
     );

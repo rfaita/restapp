@@ -8,7 +8,7 @@
   <mdl-card-actions mdl-card-border>
     <button mdl-button mdl-colored="primary" mdl-ripple (click)="orderDish(item)" [disabled]="working || !(!!ch.checkIn && !!ch.checkIn.table && !ch.checkIn.orderCheckOutTime)">Solicitar</button>
     <div class="mdl-layout-spacer"></div>
-    <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon" (click)="toggleFavorite(item)" [disabled]="working">
+    <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon" (click)="toggleFavorite(item)" [disabled]="working || (!verifyFavoriteDish(item)?!allowedCreateFavorites:!allowedDeleteFavorites)">
       <mdl-icon *ngIf="!verifyFavoriteDish(item)">star_border</mdl-icon>
       <mdl-icon *ngIf="verifyFavoriteDish(item)">star</mdl-icon>
     </button>
@@ -16,7 +16,7 @@
       <mdl-icon>info</mdl-icon>
     </button>
     <mdl-menu #moreInfoMenu="mdlMenu" mdl-menu-position="top-right">
-      <mdl-menu-item (click)="loadComments(item); comentsDialog.show()">Comentários</mdl-menu-item>
+      <mdl-menu-item *ngIf="allowedReadComments" (click)="loadComments(item); comentsDialog.show()">Comentários</mdl-menu-item>
       <mdl-menu-item (click)="loadIngredients(item); ingredientsDialog.show()">Ingredientes</mdl-menu-item>
     </mdl-menu>
   </mdl-card-actions>
@@ -84,30 +84,30 @@
     </div>
     <div class="mdl-dialog__actions">
       <mdl-layout-spacer></mdl-layout-spacer>
-      <mdl-textfield type="text" label="Comentário" [(ngModel)]="comment.comment"></mdl-textfield>
+      <mdl-textfield [disabled]="!allowedCreateComments" type="text" label="Comentário" [(ngModel)]="comment.comment"></mdl-textfield>
     </div>
     <div class="mdl-dialog__actions">
-      <button mdl-button (click)="addComment()" mdl-colored="primary" mdl-ripple mdl-button-type="icon">
+      <button mdl-button [disabled]="!allowedCreateComments" (click)="addComment()" mdl-colored="primary" mdl-ripple mdl-button-type="icon">
         <mdl-icon>comment</mdl-icon>
       </button>
       <mdl-layout-spacer></mdl-layout-spacer>
-      <button mdl-button (click)="comment.stars=5" mdl-ripple mdl-button-type="icon">
+      <button mdl-button [disabled]="!allowedCreateComments" (click)="comment.stars=5" mdl-ripple mdl-button-type="icon">
       <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=4">star_border</mdl-icon>
       <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars>=5">star</mdl-icon>
     </button>
-      <button mdl-button (click)="comment.stars=4" mdl-ripple mdl-button-type="icon">
+      <button mdl-button [disabled]="!allowedCreateComments" (click)="comment.stars=4" mdl-ripple mdl-button-type="icon">
       <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=4">star_border</mdl-icon>
       <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars>=4">star</mdl-icon>
     </button>
-      <button mdl-button (click)="comment.stars=3" mdl-ripple mdl-button-type="icon">
+      <button mdl-button [disabled]="!allowedCreateComments" (click)="comment.stars=3" mdl-ripple mdl-button-type="icon">
       <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=2">star_border</mdl-icon>
       <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars>=3">star</mdl-icon>
     </button>
-      <button mdl-button (click)="comment.stars=2" mdl-ripple mdl-button-type="icon">
+      <button mdl-button [disabled]="!allowedCreateComments" (click)="comment.stars=2" mdl-ripple mdl-button-type="icon">
       <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=1">star_border</mdl-icon>
       <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars>=2">star</mdl-icon>
     </button>
-      <button mdl-button (click)="comment.stars=1" mdl-ripple mdl-button-type="icon">
+      <button mdl-button [disabled]="!allowedCreateComments" (click)="comment.stars=1" mdl-ripple mdl-button-type="icon">
       <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars<=0">star_border</mdl-icon>
       <mdl-icon class="mdl-color-text--yellow-A400" *ngIf="comment.stars>=1">star</mdl-icon>
     </button>

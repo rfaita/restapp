@@ -13,14 +13,14 @@
       <mdl-list-item-sub-title *ngIf="!!item.total">Total da conta {{item.total | currency : 'BRL':true}}</mdl-list-item-sub-title>
     </mdl-list-item-primary-content>
     <mdl-list-item-secondary-content>
-      <button mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon" (click)="checkInOrdersDialog.show()">
+      <button [disabled]="!allowedReadOtherOrders" mdl-button mdl-colored="primary" mdl-ripple mdl-button-type="icon" (click)="checkInOrdersDialog.show()">
         <mdl-icon>view_list</mdl-icon>
       </button>
-      <button mdl-button mdl-colored="primary" *ngIf="!item.orderCheckOutTime && !item.table" mdl-ripple mdl-button-type="icon"
+      <button [disabled]="!allowedUpdateOtherCheckIn" mdl-button mdl-colored="primary" *ngIf="!item.orderCheckOutTime && !item.table" mdl-ripple mdl-button-type="icon"
         (click)="checkInTableDialog.show()">
         <mdl-icon>local_offer</mdl-icon>
         </button>
-        <button mdl-button mdl-colored="primary" *ngIf="!!item.orderCheckOutTime && !item.total" mdl-ripple mdl-button-type="icon"
+        <button [disabled]="!allowedUpdateOtherCheckIn" mdl-button mdl-colored="primary" *ngIf="!!item.orderCheckOutTime && !item.total" mdl-ripple mdl-button-type="icon"
           (click)="checkOutTableDialog.show()">
           <mdl-icon>call_missed_outgoing</mdl-icon>
           </button>
