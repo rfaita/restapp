@@ -1,5 +1,9 @@
 import { Injectable, Inject } from "@angular/core";
-import { AngularFire, AuthProviders, AuthMethods, FirebaseObjectObservable, FirebaseListObservable, FirebaseApp } from 'angularfire2';
+import {
+  AngularFire, AuthProviders, AuthMethods,
+  FirebaseObjectObservable, FirebaseListObservable,
+  FirebaseApp
+} from 'angularfire2';
 import { User } from '../model/user';
 import { Order } from '../model/order';
 import { LoginHelper } from './loginhelper';
@@ -37,6 +41,20 @@ export class AngularFireHelper {
       provider: AuthProviders.Google,
       method: AuthMethods.Popup,
     });
+  }
+
+  loginWithEmail(email: string, pass: string) {
+    return this.af.auth.login({
+      email: email,
+      password: pass
+    }, {
+        provider: AuthProviders.Password,
+        method: AuthMethods.Password,
+      });
+  }
+
+  signInWithEmail(email: string, pass: string) {
+    return this.af.auth.createUser({ email: email, password: pass });
   }
 
   logout() {
@@ -312,6 +330,10 @@ export class AngularFireHelper {
             this.lh.user.displayName = auth.google.displayName;
             this.lh.user.email = auth.google.email;
             this.lh.user.photoURL = auth.google.photoURL;
+          } else if (auth.provider === AuthProviders.Password) {
+            this.lh.user.displayName = auth.auth.email;//duuu
+            this.lh.user.email = auth.auth.email;
+            this.lh.user.photoURL = "/assets/nobody.jpg"
           }
           this.lh.user.uid = auth.uid;
         }

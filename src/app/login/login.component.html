@@ -1,17 +1,35 @@
-<div class="login-list mdl-list">
-  <div class="mdl-list__item">
-    <h1>Bem vindo, realize o login</h1>
-  </div>
-  <div class="mdl-list__item">
-    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="loginWithFacebook()">
-      <i class="fa fa-facebook-official" aria-hidden="true"></i>
-      Login com Facebook
+<form>
+  <mdl-list class="login-list">
+    <mdl-list-item>
+      <h1>Bem vindo, realize o login</h1>
+    </mdl-list-item>
+    <mdl-list-item>
+      <mdl-textfield type="text" label="E-mail" name="email" floating-label [(ngModel)]="email"></mdl-textfield>
+    </mdl-list-item>
+    <mdl-list-item>
+      <mdl-textfield type="password" label="Senha" name="pass" floating-label [(ngModel)]="pass"></mdl-textfield>
+    </mdl-list-item>
+    <mdl-list-item>
+      <button mdl-button (click)="loginWithEmail()" mdl-colored="primary" mdl-ripple>
+      Login
     </button>
-  </div>
-  <div class="mdl-list__item">
-    <button style="background-color: red" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="loginWithGoogle()">
-      <i class="fa fa-google" aria-hidden="true"></i>
-      Login com Google
+    </mdl-list-item>
+    <mdl-list-item>
+      <button mdl-button [routerLink]="['/signin']" mdl-colored="primary" mdl-ripple>
+      Cadastrar
     </button>
-  </div>
-</div>
+    </mdl-list-item>
+    <mdl-list-item>
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="loginWithFacebook()">
+        <i class="fa fa-facebook-official" aria-hidden="true"></i>
+        Login com Facebook
+      </button>
+    </mdl-list-item>
+    <mdl-list-item>
+      <button style="background-color: red" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+        (click)="loginWithGoogle()">
+        <i class="fa fa-google" aria-hidden="true"></i> Login com Google
+        </button>
+    </mdl-list-item>
+  </mdl-list>
+</form>

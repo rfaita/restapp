@@ -9,10 +9,12 @@ import { KitchenComponent } from './kitchen/kitchen.component';
 import { DishComponent } from './dish/dish.component';
 import { DishsComponent } from './dishs/dishs.component';
 import { CheckinComponent } from './checkin/checkin.component';
+import { SigninComponent } from './signin/signin.component';
 
 export const routes: Routes = [
 
     { path: 'login', component: LoginComponent },
+    { path: 'signin', component: SigninComponent },
     { path: 'menu', component: MenuComponent, canActivate: [AuthGuard] },
     { path: 'checkin', component: CheckinComponent, canActivate: [AuthGuard] },
     { path: 'menu/:category', component: MenuComponent, canActivate: [AuthGuard] },

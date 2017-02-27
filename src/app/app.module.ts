@@ -25,10 +25,11 @@ import { KitchenComponent } from './kitchen/kitchen.component';
 import { DishComponent } from './dish/dish.component';
 import { DishsComponent } from './dishs/dishs.component';
 import { CheckinComponent } from './checkin/checkin.component';
+import { ClearHelper } from './helpers/clearhelper';
+import { SigninComponent } from './signin/signin.component';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/take';
-import { ClearHelper } from './helpers/clearhelper';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDIlT_RN2-aBRUdqe5NrsFu5hmIv3DRCC8",
@@ -51,7 +52,8 @@ export const firebaseConfig = {
     DishComponent,
     DishsComponent,
     FilterPipe,
-    CheckinComponent
+    CheckinComponent,
+    SigninComponent
   ],
   imports: [
     MdlModule,
