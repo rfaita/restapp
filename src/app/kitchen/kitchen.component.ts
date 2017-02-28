@@ -16,27 +16,33 @@ export class KitchenComponent implements OnInit {
   public doings: FirebaseListObservable<Order[]>;
   public dones: FirebaseListObservable<Order[]>;
 
+  public allowedUpdateOtherOrders: boolean = false;
+
   constructor(private afh: AngularFireHelper,
     private route: ActivatedRoute) {
 
   }
 
   changeOrderStatusToDoing(order: Order) {
-    let updateOrder: Order = new Order();
-    updateOrder.$key = order.$key;
-    updateOrder.status = "doing";
-    updateOrder.destination = order.destination;
-    updateOrder.timeInitDoing = new Date().getTime();
-    this.afh.updateOrder(updateOrder);
+    if (this.allowedUpdateOtherOrders) {
+      let updateOrder: Order = new Order();
+      updateOrder.$key = order.$key;
+      updateOrder.status = "doing";
+      updateOrder.destination = order.destination;
+      updateOrder.timeInitDoing = new Date().getTime();
+      this.afh.updateOrder(updateOrder);
+    }
   }
 
   changeOrderStatusToDone(order: Order) {
-    let updateOrder: Order = new Order();
-    updateOrder.$key = order.$key;
-    updateOrder.status = "done";
-    updateOrder.destination = order.destination;
-    updateOrder.timeFinishDoing = new Date().getTime();
-    this.afh.updateOrder(updateOrder);
+    if (this.allowedUpdateOtherOrders) {
+      let updateOrder: Order = new Order();
+      updateOrder.$key = order.$key;
+      updateOrder.status = "done";
+      updateOrder.destination = order.destination;
+      updateOrder.timeFinishDoing = new Date().getTime();
+      this.afh.updateOrder(updateOrder);
+    }
   }
 
   ngOnInit() {
@@ -52,6 +58,8 @@ export class KitchenComponent implements OnInit {
 
     });
 
+
+    this.afh.userIsAllowed("orders", "u", false).subscribe(perm => this.allowedUpdateOtherOrders = perm);
 
   }
 }

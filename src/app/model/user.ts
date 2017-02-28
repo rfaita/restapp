@@ -5,4 +5,5 @@ export class User {
     public uid: string;
     public role: string;
     public provider: number;
+    public tokenMessaging: string;
 }

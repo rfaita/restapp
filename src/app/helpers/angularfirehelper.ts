@@ -116,6 +116,57 @@ export class AngularFireHelper {
     return this.firebaseApp.storage().ref().child(path + new Date().getTime() + file.name).put(file);
   }
 
+  requestPermissionMessaging() {
+    this.firebaseApp.messaging().requestPermission().then(
+      () => {
+        console.log('Notification permission granted.');
+        // TODO(developer): Retrieve an Instance ID token for use with FCM.
+        // [START_EXCLUDE]
+        // In many cases once an app has been granted notification permission, it
+        // should update its UI reflecting this.
+        this.registryRefreshToken();
+        this.registryOnMessage();
+        this.requestTokenMessaging();
+
+        // [END_EXCLUDE]
+      },
+      (err) => {
+        console.log('Unable to get permission to notify.', err);
+      });
+
+  }
+
+  private registryRefreshToken() {
+
+    this.firebaseApp.messaging().onTokenRefresh(() => {
+      this.requestTokenMessaging();
+    });
+  }
+
+  private registryOnMessage() {
+    this.firebaseApp.messaging().onMessage(
+      (payload) => {
+        console.log("Message received. ", payload);
+        // [START_EXCLUDE]
+        // Update the UI to include the received message.
+
+        // [END_EXCLUDE]
+      });
+
+  }
+
+  private requestTokenMessaging() {
+    this.firebaseApp.messaging().getToken().then(
+      (currentToken) => {
+        this.lh.user.tokenMessaging = currentToken;
+        this.updateUser();
+      },
+      (err) => {
+        console.log('An error occurred while retrieving token. ', err);
+      });
+  }
+
+
   tablesRef() {
     return this.af.database.list('/tables', {
       query: {

@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.afh.subscribeUser().subscribe((auth) => {
       if (!!this.lh.user) {
+        this.afh.requestPermissionMessaging();
         this.afh.subscribeCheckIn();
         if (this.lh.user.provider === AuthProviders.Password) {
           this.afh.userRef().subscribe(user => {

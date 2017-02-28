@@ -1,0 +1,32 @@
+{
+    "short_name": "RestApp",
+    "name": "Um aplicativo para controle de restaurante",
+    "start_url": "index.html",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#2196F3",
+    "theme_color": "#2196F3",
+    "gcm_sender_id": "103953800507",
+    "icons": [
+        {
+            "src": "assets/icon128x128.png",
+            "type": "image/png",
+            "sizes": "128x128"
+        },
+        {
+            "src": "assets/icon152x152.png",
+            "type": "image/png",
+            "sizes": "152x152"
+        },
+        {
+            "src": "assets/icon144x144.png",
+            "type": "image/png",
+            "sizes": "144x144"
+        },
+        {
+            "src": "assets/icon192x192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        }
+    ]
+}

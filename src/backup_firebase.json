@@ -1,0 +1,206 @@
+{
+    "categories": {
+        "0": {
+            "name": "Comidas"
+        },
+        "1": {
+            "name": "Sobremesas"
+        },
+        "2": {
+            "name": "Bebidas"
+        },
+        "4asdasd": {
+            "favorite": true,
+            "name": "Favoritos"
+        }
+    },
+    "destinations": [
+        {
+            "name": "Cozinha",
+            "value": "kitchen"
+        },
+        {
+            "name": "Bar",
+            "value": "bar"
+        }
+    ],
+    "menu": {
+        "0": {
+            "category": "Comidas",
+            "description": "Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.",
+            "destination": "kitchen",
+            "image": "http://xn--guiadopreo-w6a.com/wp-content/uploads/2016/09/prato.jpg",
+            "name": "Costela Barbecue",
+            "price": 50
+        },
+        "1": {
+            "category": "Comidas",
+            "description": "Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.",
+            "destination": "kitchen",
+            "image": "https://media-cdn.tripadvisor.com/media/photo-s/08/af/aa/ac/outback-steakhouse.jpg",
+            "name": "Cebola",
+            "price": 12.46
+        },
+        "2": {
+            "category": "Sobremesas",
+            "description": "Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.",
+            "destination": "kitchen",
+            "image": "https://i0.wp.com/comesaopaulo.com.br/wp-content/uploads/2015/08/comer-sobremesa-no-outback.jpg",
+            "name": "Sorvete do bão",
+            "price": 23
+        },
+        "3": {
+            "category": "Comidas",
+            "description": "<b>Lorem</b> Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.",
+            "destination": "kitchen",
+            "image": "http://guiadaculinaria.com.br/admin/novo/f_noticias/outback-down-under-days-chicken-on-the-barbies.jpg",
+            "name": "Peixe assado com batatas",
+            "price": 40
+        },
+        "4": {
+            "category": "Bebidas",
+            "description": "O Chopp Brahma é o único não pasteurizado, sempre fresco e o preferido dos garçons. O Chopp é um produto fresco, seu sabor é encorpado, o aroma neutro e seu teor de amargor é menos acentuado. Com 90% de água, o Chopp é hidratante e rico em vitaminas. Ao servir o Chopp, o ideal é manter 2 dedos de espuma de colarinho para reter o aroma e evitar a liberação do gás carbônico. Ingredientes: água potável tratada, malte, cereais não maltados, carboidratos e lúpulo. ",
+            "destination": "bar",
+            "image": "http://www.bemparana.com.br/comerecurtir/wp-content/uploads/2015/10/unnamed-651.jpg",
+            "name": "Chop",
+            "price": 12
+        },
+        "-KcyDEX60qOOmAfYt3BR": {
+            "category": "Sobremesas",
+            "description": "Uma descrição qualquer para esta bosta aqui",
+            "destination": "kitchen",
+            "image": "https://firebasestorage.googleapis.com/v0/b/restapp-64952.appspot.com/o/images%2F1487182204800-text.png?alt=media&token=c2fde6b2-d7b8-4b55-869f-28658ad5b582",
+            "name": "Testando tudo isso aqui",
+            "price": 10.8
+        },
+        "-Kd2ILQd5hzjOUfm6hKP": {
+            "category": "Bebidas",
+            "description": "asdasdasda",
+            "destination": "bar",
+            "image": "https://firebasestorage.googleapis.com/v0/b/restapp-64952.appspot.com/o/images%2F1487187827331-text.png?alt=media&token=97ead682-7771-4e36-9b2a-bccfccdf792c",
+            "name": "teste",
+            "price": 123
+        }
+    },
+    "permissions": {
+        "cozinha": {
+            "dishs": {
+                "other": {
+                    "c": true,
+                    "d": true,
+                    "r": true,
+                    "u": true
+                }
+            },
+            "orders": {
+                "other": {
+                    "r": true,
+                    "u": true
+                }
+            }
+        },
+        "garcom": {
+            "check_ins": {
+                "other": {
+                    "r": true,
+                    "u": true
+                }
+            },
+            "orders": {
+                "other": {
+                    "r": true
+                }
+            }
+        },
+        "user": {
+            "check_ins": {
+                "own": {
+                    "c": true,
+                    "r": true,
+                    "u": true
+                }
+            },
+            "dish_comments": {
+                "other": {
+                    "r": true
+                },
+                "own": {
+                    "c": true,
+                    "r": true
+                }
+            },
+            "favorites": {
+                "own": {
+                    "c": true,
+                    "d": true
+                }
+            },
+            "orders": {
+                "own": {
+                    "c": true,
+                    "r": true
+                }
+            }
+        }
+    },
+    "tables": {
+        "1": {
+            "inUse": false,
+            "name": "123"
+        },
+        "3": {
+            "inUse": true,
+            "name": "3"
+        },
+        "4": {
+            "inUse": true,
+            "name": "4"
+        },
+        "5": {
+            "inUse": false,
+            "name": "455"
+        },
+        "90": {
+            "inUse": false,
+            "name": "21"
+        },
+        "123": {
+            "inUse": false,
+            "name": "10"
+        },
+        "1234": {
+            "inUse": true,
+            "name": "20"
+        },
+        "3192": {
+            "inUse": false,
+            "name": "22"
+        }
+    },
+    "users": {
+        "4x3NuYCtHqemPSQn43upociitqJ2": {
+            "displayName": "cozinha@teste.com",
+            "email": "cozinha@teste.com",
+            "photoURL": "/assets/nobody.jpg",
+            "provider": 4,
+            "role": "cozinha",
+            "uid": "4x3NuYCtHqemPSQn43upociitqJ2"
+        },
+        "QUHyKKJ4fOOFZx1OzN5FpXUFU243": {
+            "displayName": "garcom@teste.com",
+            "email": "garcom@teste.com",
+            "photoURL": "/assets/nobody.jpg",
+            "provider": 4,
+            "role": "garcom",
+            "uid": "QUHyKKJ4fOOFZx1OzN5FpXUFU243"
+        },
+        "rRYlBw7JljS9kT05PusFU42yslv1": {
+            "displayName": "admin@teste.com",
+            "email": "admin@teste.com",
+            "photoURL": "/assets/nobody.jpg",
+            "provider": 4,
+            "role": "admin",
+            "uid": "rRYlBw7JljS9kT05PusFU42yslv1"
+        }
+    }
+}
