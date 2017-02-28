@@ -20,18 +20,37 @@ export class LoginComponent implements OnInit {
   loginWithFacebook() {
     this.afh.loginWithFacebook().then((data) => {
       this.router.navigate(['']);
+    }, (e: Error) => {
+      switch (e['code']) {
+        case "auth/account-exists-with-different-credential": {
+          this.sbh.showInfo("Este e-mail já esta associado a outro provedor de acesso.");
+          break;
+        }
+        default: {
+          this.sbh.showInfo(e.message);
+        }
+      }
     });
   }
   loginWithGoogle() {
     this.afh.loginWithGoogle().then((data) => {
       this.router.navigate(['']);
+    }, (e: Error) => {
+      switch (e['code']) {
+        case "auth/account-exists-with-different-credential": {
+          this.sbh.showInfo("Este e-mail já esta associado a outro provedor de acesso.");
+          break;
+        }
+        default: {
+          this.sbh.showInfo(e.message);
+        }
+      }
     });
   }
   loginWithEmail() {
     this.afh.loginWithEmail(this.email, this.pass).then((data) => {
       this.router.navigate(['']);
     }, (e: Error) => {
-      console.log(e);
       switch (e['code']) {
         case "auth/invalid-email": {
           this.sbh.showInfo("Formato do e-mail inválido.");

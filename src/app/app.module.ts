@@ -27,9 +27,11 @@ import { DishsComponent } from './dishs/dishs.component';
 import { CheckinComponent } from './checkin/checkin.component';
 import { ClearHelper } from './helpers/clearhelper';
 import { SigninComponent } from './signin/signin.component';
+import { ProfileComponent } from './profile/profile.component';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/take';
+
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDIlT_RN2-aBRUdqe5NrsFu5hmIv3DRCC8",
@@ -53,7 +55,8 @@ export const firebaseConfig = {
     DishsComponent,
     FilterPipe,
     CheckinComponent,
-    SigninComponent
+    SigninComponent,
+    ProfileComponent
   ],
   imports: [
     MdlModule,
@@ -72,7 +75,7 @@ export const firebaseConfig = {
 export class AppModule {
 
   constructor(public afh: AngularFireHelper) {
-    
+
   }
 
 }

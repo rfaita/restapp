@@ -3,6 +3,24 @@
     padding: 0px;
 }
 
+h3 {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    text-align: center;
+}
+
 .mdl-list__item button {
     width:100%;
+}
+
+.mdl-textfield {
+    width:100%;
+}
+
+p {
+    width:100%;
+    text-align: right;
+    margin: 0px;
+    padding: 0px;
 }

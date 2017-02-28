@@ -10,12 +10,14 @@ import { DishComponent } from './dish/dish.component';
 import { DishsComponent } from './dishs/dishs.component';
 import { CheckinComponent } from './checkin/checkin.component';
 import { SigninComponent } from './signin/signin.component';
+import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
 
     { path: 'login', component: LoginComponent },
     { path: 'signin', component: SigninComponent },
     { path: 'menu', component: MenuComponent, canActivate: [AuthGuard] },
+    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
     { path: 'checkin', component: CheckinComponent, canActivate: [AuthGuard] },
     { path: 'menu/:category', component: MenuComponent, canActivate: [AuthGuard] },
     { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },

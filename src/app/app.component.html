@@ -7,7 +7,7 @@
         <img class="login-avatar-img" [src]="lh.user.photoURL" [alt]="lh.user.displayName" />
         </button>
       <mdl-menu #userMenu="mdlMenu" mdl-menu-position="bottom-right">
-        <mdl-menu-item>Seu perfil</mdl-menu-item>
+        <mdl-menu-item [routerLink]="['profile']">Seu perfil</mdl-menu-item>
         <mdl-menu-item *ngIf="allowedReadOtherCheckIn" [routerLink]="['checkin']">Check-Ins</mdl-menu-item>
         <mdl-menu-item *ngIf="allowedReadOtherOrders" [routerLink]="['kitchen', 'bar']">Bar</mdl-menu-item>
         <mdl-menu-item *ngIf="allowedReadOtherOrders" [routerLink]="['kitchen', 'kitchen']">Cozinha</mdl-menu-item>

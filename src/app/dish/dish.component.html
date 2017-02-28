@@ -23,7 +23,8 @@
     <p>
       <label for='file-selection' class="mdl-button mdl-button--raised mdl-button--primary">Imagem do prato</label>
       <input id="file-selection" type="file" accept="image/*" (change)="uploadChangeListener($event)" formControlName="image">
-      <button mdl-button (click)="submit()" [disabled]="form.invalid || (!imageUpload && !id)" mdl-button-type="raised" mdl-ripple mdl-colored="primary">Salvar</button>
+      <button mdl-button (click)="submit()" [disabled]="form.invalid || (!imageUpload && !id)" mdl-button-type="raised" mdl-ripple
+        mdl-colored="primary" class="mdi mdi-plus">Salvar</button>
     </p>
   </form>
 </div>

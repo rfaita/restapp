@@ -5,7 +5,7 @@ import { CheckInHelper } from "./helpers/checkinhelper";
 import { SnackBarHelper } from "./helpers/snackbarhelper";
 import { CheckIn } from './model/checkin';
 import { LoginHelper } from './helpers/loginhelper';
-import { FirebaseListObservable } from 'angularfire2';
+import { FirebaseListObservable, AuthProviders } from 'angularfire2';
 
 @Component({
   selector: 'app-root',
@@ -33,28 +33,45 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.afh.subscribeUser().subscribe(() => {
+    this.afh.subscribeUser().subscribe((auth) => {
       if (!!this.lh.user) {
-        this.afh.updateUser().then(() => {
-          this.afh.subscribeCheckIn();
+        this.afh.subscribeCheckIn();
+        if (this.lh.user.provider === AuthProviders.Password) {
           this.afh.userRef().subscribe(user => {
-            this.lh.user.role = user.role;
-
-            this.afh.userIsAllowed("check_ins", "c").subscribe(perm => this.allowedCreateCheckIn = perm);
-            this.afh.userIsAllowed("check_ins", "r").subscribe(perm => this.allowedReadCheckIn = perm);
-            this.afh.userIsAllowed("check_ins", "u").subscribe(perm => this.allowedUpdateCheckIn = perm);
-
-            this.afh.userIsAllowed("check_ins", "r", false).subscribe(perm => this.allowedReadOtherCheckIn = perm);
-
-            this.afh.userIsAllowed("orders", "r", false).subscribe(perm => this.allowedReadOtherOrders = perm);
-
-            this.afh.userIsAllowed("dishs", "r", false).subscribe(perm => this.allowedReadOtherDishs = perm);
-
+            if (!user.uid) {
+              //cria o usuário no sistema
+              this.afh.updateUser();
+            } else {
+              //resgata o usuário no sistema
+              this.lh.user = user;
+              this.lh.user.role = this.lh.user.role || "user";
+              this.loadAllowedByUser();
+            }
           });
-        });
+        } else {
+          this.afh.updateUser().then(() => {
+            this.afh.userRef().subscribe(user => {
+              this.lh.user.role = user.role || "user";
+              this.loadAllowedByUser();
+            });
+          });
+        }
       }
     });
 
+  }
+
+  private loadAllowedByUser() {
+
+    this.afh.userIsAllowed("check_ins", "c").subscribe(perm => this.allowedCreateCheckIn = perm);
+    this.afh.userIsAllowed("check_ins", "r").subscribe(perm => this.allowedReadCheckIn = perm);
+    this.afh.userIsAllowed("check_ins", "u").subscribe(perm => this.allowedUpdateCheckIn = perm);
+
+    this.afh.userIsAllowed("check_ins", "r", false).subscribe(perm => this.allowedReadOtherCheckIn = perm);
+
+    this.afh.userIsAllowed("orders", "r", false).subscribe(perm => this.allowedReadOtherOrders = perm);
+
+    this.afh.userIsAllowed("dishs", "r", false).subscribe(perm => this.allowedReadOtherDishs = perm);
   }
 
   logout() {

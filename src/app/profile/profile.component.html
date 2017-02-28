@@ -1,0 +1,20 @@
+<div>
+  <mdl-progress [progress]="progressUpload"></mdl-progress>
+  <form novalidate [formGroup]="form">
+    <p>
+      <img class="avatar-img" [src]="lh.user.photoURL" [alt]="lh.user.displayName" />
+    </p>
+    <p>
+      <mdl-textfield label="Nome" type="text" formControlName="displayName" floating-label disableNativeValidityChecking error-msg="Informe o nome."></mdl-textfield>
+    </p>
+    <p>
+      <mdl-textfield label="E-mail" type="text" formControlName="email" floating-label disableNativeValidityChecking disabled="true"></mdl-textfield>
+    </p>
+    <p>
+      <label for='file-selection' class="mdl-button mdl-button--raised mdl-button--primary" *ngIf="canEdit">Imagem</label>
+      <input id="file-selection" type="file" accept="image/*" (change)="uploadChangeListener($event)" formControlName="image">
+      <button mdl-button (click)="submit()" [disabled]="form.invalid" mdl-button-type="raised" mdl-ripple *ngIf="canEdit"
+        mdl-colored="primary" >Atualizar</button>
+    </p>
+  </form>
+</div>

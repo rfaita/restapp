@@ -1,5 +1,5 @@
 <form>
-  <mdl-list class="login-list">
+  <mdl-list class="signin-list">
     <mdl-list-item>
       <h3>Cadastro</h3>
     </mdl-list-item>
@@ -13,7 +13,7 @@
       <mdl-textfield type="password" floating-label name="passConf" label="Conf." [(ngModel)]="passConf"></mdl-textfield>
     </mdl-list-item>
     <mdl-list-item>
-      <button mdl-button (click)="signInWithEmail()" mdl-colored="primary" mdl-ripple>
+      <button mdl-button mdl-button-type="raised" mdl-ripple mdl-colored="primary" (click)="signInWithEmail()">
       Cadastrar
     </button>
     </mdl-list-item>

@@ -4,4 +4,5 @@ export class User {
     public email: string;
     public uid: string;
     public role: string;
+    public provider: number;
 }

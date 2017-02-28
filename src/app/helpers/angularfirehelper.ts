@@ -69,6 +69,7 @@ export class AngularFireHelper {
   }
 
   updateUser() {
+    this.clearHelper.clear(this.lh.user)
     return this.userRef().update(this.lh.user);
   }
 
@@ -335,6 +336,7 @@ export class AngularFireHelper {
             this.lh.user.email = auth.auth.email;
             this.lh.user.photoURL = "/assets/nobody.jpg"
           }
+          this.lh.user.provider = auth.provider;
           this.lh.user.uid = auth.uid;
         }
       }
