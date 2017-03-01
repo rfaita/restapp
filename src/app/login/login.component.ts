@@ -10,8 +10,8 @@ import { SnackBarHelper } from '../helpers/snackbarhelper';
 })
 export class LoginComponent implements OnInit {
 
-  public email: string = "";
-  public pass: string = "";
+  public email = '';
+  public pass = '';
 
   constructor(public afh: AngularFireHelper, public sbh: SnackBarHelper, public router: Router) {
 
@@ -22,10 +22,10 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['']);
     }, (e: Error) => {
       switch (e['code']) {
-        case "auth/account-exists-with-different-credential": {
-          this.sbh.showInfo("Este e-mail já esta associado a outro provedor de acesso.");
-          break;
+        case 'auth/account-exists-with-different-credential': {
+          this.sbh.showInfo('Este e-mail já esta associado a outro provedor de acesso.');
         }
+          break;
         default: {
           this.sbh.showInfo(e.message);
         }
@@ -37,10 +37,10 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['']);
     }, (e: Error) => {
       switch (e['code']) {
-        case "auth/account-exists-with-different-credential": {
-          this.sbh.showInfo("Este e-mail já esta associado a outro provedor de acesso.");
-          break;
+        case 'auth/account-exists-with-different-credential': {
+          this.sbh.showInfo('Este e-mail já esta associado a outro provedor de acesso.');
         }
+          break;
         default: {
           this.sbh.showInfo(e.message);
         }
@@ -52,15 +52,15 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['']);
     }, (e: Error) => {
       switch (e['code']) {
-        case "auth/invalid-email": {
-          this.sbh.showInfo("Formato do e-mail inválido.");
-          break;
+        case 'auth/invalid-email': {
+          this.sbh.showInfo('Formato do e-mail inválido.');
         }
-        case "auth/user-not-found":
-        case "auth/wrong-password": {
-          this.sbh.showInfo("E-mail não cadastrado ou senha incorreta.");
           break;
+        case 'auth/user-not-found':
+        case 'auth/wrong-password': {
+          this.sbh.showInfo('E-mail não cadastrado ou senha incorreta.');
         }
+          break;
         default: {
           this.sbh.showInfo(e.message);
         }

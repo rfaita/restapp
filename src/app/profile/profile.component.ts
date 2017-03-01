@@ -13,14 +13,14 @@ import { AuthProviders } from 'angularfire2';
 })
 export class ProfileComponent implements OnInit {
 
-  private canEdit: boolean = false;
-  public imageUpload: File = undefined;
+  public canEdit = false;
+  private imageUpload: File = undefined;
   private image: string;
   public form: FormGroup;
-  public progressUpload: number = 0;
+  public progressUpload = 0;
 
   constructor(
-    private lh: LoginHelper,
+    public lh: LoginHelper,
     private afh: AngularFireHelper,
     private sbh: SnackBarHelper,
     private fb: FormBuilder) {
@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit {
     this.form.setValue({
       displayName: this.lh.user.displayName,
       email: this.lh.user.email,
-      image: ""
+      image: ''
     });
 
     this.canEdit = (this.lh.user.provider === AuthProviders.Password);
@@ -53,15 +53,14 @@ export class ProfileComponent implements OnInit {
   }
 
   submit() {
-    let user: User = this.form.value as User;
+    const user: User = this.form.value as User;
 
     this.lh.user.displayName = user.displayName;
 
-
     if (this.imageUpload) {
-      this.afh.uploadFile(this.imageUpload, "avatars/").subscribe(
+      this.afh.uploadFile(this.imageUpload, 'avatars/').subscribe(
         (value) => {
-          if (typeof (value) === "string") {
+          if (typeof (value) === 'string') {
             this.lh.user.photoURL = value;
           } else {
             this.progressUpload = value;
@@ -69,7 +68,7 @@ export class ProfileComponent implements OnInit {
         },
         (error) => {
           this.form.enable();
-          this.sbh.showInfo("Problema no upload da imagem do prato.");
+          this.sbh.showInfo('Problema no upload da imagem do prato.');
         },
         () => {
           this.afh.updateUser().then(() => {

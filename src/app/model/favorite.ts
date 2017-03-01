@@ -3,5 +3,4 @@ export class Favorite {
     public uid: string;
     public did: string;
     public time: number;
-
 }

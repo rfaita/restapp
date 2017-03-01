@@ -10,11 +10,11 @@ export class CheckIn {
     public tid: string;
     public table: string;
     public total: number;
-    public closed: boolean = false;
+    public closed = false;
     private _closed_uid: string;
 
     public static buildIndex(ch: CheckIn): CheckIn {
-        ch._closed_uid = "" + ch.closed + ch.uid;
+        ch._closed_uid = '' + ch.closed + ch.uid;
         return ch;
     }
 }

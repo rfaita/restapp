@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { MdlSnackbarService, MdlSnackbarComponent } from "angular2-mdl";
-import { Observable } from "rxjs";
+import { Injectable } from '@angular/core';
+import { MdlSnackbarService, MdlSnackbarComponent } from 'angular2-mdl';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class SnackBarHelper {
@@ -9,7 +9,7 @@ export class SnackBarHelper {
 
     showInfo(m: string, t?: string, h?: () => void, hideAction?: () => void) {
         let timeOut;
-        let _h = () => {
+        const _h = () => {
             clearTimeout(timeOut);
             h();
         };
@@ -25,7 +25,7 @@ export class SnackBarHelper {
                 if (hideAction) {
                     hideAction();
                 }
-            }, 2750)
+            }, 2750);
         });
     }
 

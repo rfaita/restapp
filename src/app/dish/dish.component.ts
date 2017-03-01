@@ -16,7 +16,7 @@ export class DishComponent implements OnInit {
   public imageUpload: File = undefined;
   private image: string;
   public form: FormGroup;
-  public progressUpload: number = 0;
+  public progressUpload = 0;
   public id: string;
 
   public categories: FirebaseListObservable<any[]>;
@@ -41,13 +41,13 @@ export class DishComponent implements OnInit {
   ngOnInit() {
 
     this.categories = this.afh.categoriesRef()
-      .map(items => items.filter(item => { return !item.favorite })) as FirebaseListObservable<any[]>
+      .map(items => items.filter(item => { return !item.favorite; })) as FirebaseListObservable<any[]>;
 
     this.destinations = this.afh.destinationsRef();
 
     this.route.params.subscribe(params => {
 
-      this.id = params["id"];
+      this.id = params['id'];
 
       if (this.id) {
         this.afh.dishRef(this.id).subscribe((dish) => {
@@ -58,7 +58,7 @@ export class DishComponent implements OnInit {
             description: dish.description,
             destination: dish.destination,
             category: dish.category,
-            image: ""
+            image: ''
           });
         });
       }
@@ -69,7 +69,7 @@ export class DishComponent implements OnInit {
   private addDish(dish: Dish) {
     this.afh.addDish(dish).then(() => {
       this.form.enable();
-      this.sbh.showInfo("Prato adicionado com sucesso.");
+      this.sbh.showInfo('Prato adicionado com sucesso.');
       this.form.reset();
       this.imageUpload = undefined;
       this.router.navigate(['/dishs']);
@@ -79,7 +79,7 @@ export class DishComponent implements OnInit {
   private updateDish(dish: Dish) {
     this.afh.updateDish(dish).then(() => {
       this.form.enable();
-      this.sbh.showInfo("Prato atualizado com sucesso.");
+      this.sbh.showInfo('Prato atualizado com sucesso.');
       this.form.reset();
       this.imageUpload = undefined;
       this.router.navigate(['/dishs']);
@@ -87,16 +87,16 @@ export class DishComponent implements OnInit {
   }
 
   submit() {
-    let dish: Dish = this.form.value as Dish;
+    const dish: Dish = this.form.value as Dish;
 
     this.form.disable();
 
     if (this.id) {
       dish.$key = this.id;
       if (this.imageUpload) {
-        this.afh.uploadFile(this.imageUpload, "images/").subscribe(
+        this.afh.uploadFile(this.imageUpload, 'images/').subscribe(
           (value) => {
-            if (typeof (value) === "string") {
+            if (typeof (value) === 'string') {
               dish.image = value;
             } else {
               this.progressUpload = value;
@@ -104,7 +104,7 @@ export class DishComponent implements OnInit {
           },
           (error) => {
             this.form.enable();
-            this.sbh.showInfo("Problema no upload da imagem do prato.");
+            this.sbh.showInfo('Problema no upload da imagem do prato.');
           },
           () => {
             this.updateDish(dish);
@@ -114,9 +114,9 @@ export class DishComponent implements OnInit {
         this.updateDish(dish);
       }
     } else {
-      this.afh.uploadFile(this.imageUpload, "images/").subscribe(
+      this.afh.uploadFile(this.imageUpload, 'images/').subscribe(
         (value) => {
-          if (typeof (value) === "string") {
+          if (typeof (value) === 'string') {
             dish.image = value;
           } else {
             this.progressUpload = value;
@@ -124,7 +124,7 @@ export class DishComponent implements OnInit {
         },
         (error) => {
           this.form.enable();
-          this.sbh.showInfo("Problema no upload da imagem do prato.");
+          this.sbh.showInfo('Problema no upload da imagem do prato.');
         },
         () => {
           this.addDish(dish);

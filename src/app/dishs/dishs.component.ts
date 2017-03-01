@@ -14,9 +14,10 @@ export class DishsComponent implements OnInit {
   public items: FirebaseListObservable<Dish[]>;
   private _removeDish: Dish;
 
-  public allowedCreateOtherDishs: boolean = false;
-  public allowedUpdateOtherDishs: boolean = false;
-  public allowedDeleteOtherDishs: boolean = false;
+  public allowedCreateOtherDishs = false;
+  public allowedUpdateOtherDishs = false;
+  public allowedDeleteOtherDishs = false;
+  public searchText: string;
 
   constructor(private afh: AngularFireHelper,
     private sbh: SnackBarHelper) { }
@@ -27,7 +28,7 @@ export class DishsComponent implements OnInit {
 
   removeDish() {
     this.afh.removeDish(this._removeDish).then(() => {
-      this.sbh.showInfo("Prato removido som sucesso");
+      this.sbh.showInfo('Prato removido som sucesso');
       this._removeDish = undefined;
     });
   }
@@ -37,9 +38,9 @@ export class DishsComponent implements OnInit {
     this.items = this.afh.menuRef();
 
 
-    this.afh.userIsAllowed("dishs", "c", false).subscribe(perm => this.allowedCreateOtherDishs = perm);
-    this.afh.userIsAllowed("dishs", "u", false).subscribe(perm => this.allowedUpdateOtherDishs = perm);
-    this.afh.userIsAllowed("dishs", "d", false).subscribe(perm => this.allowedDeleteOtherDishs = perm);
+    this.afh.userIsAllowed('dishs', 'c', false).subscribe(perm => this.allowedCreateOtherDishs = perm);
+    this.afh.userIsAllowed('dishs', 'u', false).subscribe(perm => this.allowedUpdateOtherDishs = perm);
+    this.afh.userIsAllowed('dishs', 'd', false).subscribe(perm => this.allowedDeleteOtherDishs = perm);
 
   }
 

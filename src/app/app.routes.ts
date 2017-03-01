@@ -1,8 +1,8 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AboutComponent } from "./about/about.component";
-import { MenuComponent } from "./menu/menu.component";
-import { LoginComponent } from "./login/login.component";
+import { AboutComponent } from './about/about.component';
+import { MenuComponent } from './menu/menu.component';
+import { LoginComponent } from './login/login.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AuthGuard } from './helpers/authguard';
 import { KitchenComponent } from './kitchen/kitchen.component';

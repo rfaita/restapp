@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FirebaseListObservable } from 'angularfire2';
 import { Order } from '../model/order';
 import { AngularFireHelper } from '../helpers/angularfirehelper';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -16,7 +16,7 @@ export class KitchenComponent implements OnInit {
   public doings: FirebaseListObservable<Order[]>;
   public dones: FirebaseListObservable<Order[]>;
 
-  public allowedUpdateOtherOrders: boolean = false;
+  public allowedUpdateOtherOrders = false;
 
   constructor(private afh: AngularFireHelper,
     private route: ActivatedRoute) {
@@ -25,9 +25,9 @@ export class KitchenComponent implements OnInit {
 
   changeOrderStatusToDoing(order: Order) {
     if (this.allowedUpdateOtherOrders) {
-      let updateOrder: Order = new Order();
+      const updateOrder: Order = new Order();
       updateOrder.$key = order.$key;
-      updateOrder.status = "doing";
+      updateOrder.status = 'doing';
       updateOrder.destination = order.destination;
       updateOrder.timeInitDoing = new Date().getTime();
       this.afh.updateOrder(updateOrder);
@@ -36,9 +36,9 @@ export class KitchenComponent implements OnInit {
 
   changeOrderStatusToDone(order: Order) {
     if (this.allowedUpdateOtherOrders) {
-      let updateOrder: Order = new Order();
+      const updateOrder: Order = new Order();
       updateOrder.$key = order.$key;
-      updateOrder.status = "done";
+      updateOrder.status = 'done';
       updateOrder.destination = order.destination;
       updateOrder.timeFinishDoing = new Date().getTime();
       this.afh.updateOrder(updateOrder);
@@ -49,17 +49,19 @@ export class KitchenComponent implements OnInit {
 
     this.route.params.subscribe(params => {
 
-      let local = params["local"];
+      const local = params['local'];
 
       this.waitings = this.afh.ordersByStatusAndLocalRef('waiting', local);
       this.doings = this.afh.ordersByStatusAndLocalRef('doing', local);
       this.dones = this.afh.ordersByStatusAndLocalRef('done', local)
-        .map(items => items.filter(item => { return item.timeFinishDoing + 600000 >= new Date().getTime() })) as FirebaseListObservable<Order[]>;
+        .map(items => items.filter(item => {
+          return item.timeFinishDoing + 600000 >= new Date().getTime();
+        })) as FirebaseListObservable<Order[]>;
 
     });
 
 
-    this.afh.userIsAllowed("orders", "u", false).subscribe(perm => this.allowedUpdateOtherOrders = perm);
+    this.afh.userIsAllowed('orders', 'u', false).subscribe(perm => this.allowedUpdateOtherOrders = perm);
 
   }
 }

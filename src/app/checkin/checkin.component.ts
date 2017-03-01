@@ -4,7 +4,7 @@ import { FirebaseListObservable } from 'angularfire2';
 import { CheckIn } from '../model/checkin';
 import { SnackBarHelper } from '../helpers/snackbarhelper';
 import { Order } from '../model/order';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-checkin',
@@ -13,16 +13,16 @@ import { Subscription } from 'rxjs';
 })
 export class CheckinComponent implements OnInit {
 
-  public tax: boolean = false;
-  public perc: number = 10;
+  public tax = false;
+  public perc = 10;
   public items: FirebaseListObservable<CheckIn[]>;
   public selectedCheckIn: CheckIn;
   public tables: FirebaseListObservable<any[]>;
   public selectedTable: any;
   public orders: FirebaseListObservable<Order[]>;
 
-  public allowedUpdateOtherCheckIn:boolean = false;
-  public allowedReadOtherOrders:boolean = false;
+  public allowedUpdateOtherCheckIn = false;
+  public allowedReadOtherOrders = false;
 
   constructor(private afh: AngularFireHelper,
     private sbh: SnackBarHelper) { }
@@ -31,13 +31,13 @@ export class CheckinComponent implements OnInit {
     this.selectedCheckIn.tid = this.selectedTable.$key;
     this.selectedCheckIn.table = this.selectedTable.name;
     this.afh.checkInSetTable(this.selectedCheckIn).then(() => {
-      this.sbh.showInfo("Mesa atribuída com sucesso.");
+      this.sbh.showInfo('Mesa atribuída com sucesso.');
     });
   }
 
   calculateCheckOut() {
-    let total: number = 0;
-    let totalSub: Subscription = this.afh.ordersByCheckInRef(this.selectedCheckIn).subscribe(
+    let total = 0;
+    const totalSub: Subscription = this.afh.ordersByCheckInRef(this.selectedCheckIn).subscribe(
       items => {
         items.forEach(
           item => {
@@ -49,7 +49,7 @@ export class CheckinComponent implements OnInit {
         }
         this.selectedCheckIn.total = total;
         this.afh.checkOutSetTotal(this.selectedCheckIn).then(() => {
-          this.sbh.showInfo("Checkout realizado com sucesso.");
+          this.sbh.showInfo('Checkout realizado com sucesso.');
         });
         totalSub.unsubscribe();
         return items;
@@ -65,9 +65,9 @@ export class CheckinComponent implements OnInit {
     this.items = this.afh.checkInsRef();
     this.tables = this.afh.tablesRef();
 
-    this.afh.userIsAllowed("check_ins", "u", false).subscribe(perm => this.allowedUpdateOtherCheckIn = perm);
+    this.afh.userIsAllowed('check_ins', 'u', false).subscribe(perm => this.allowedUpdateOtherCheckIn = perm);
 
-    this.afh.userIsAllowed("orders", "r", false).subscribe(perm => this.allowedReadOtherOrders = perm);
+    this.afh.userIsAllowed('orders', 'r', false).subscribe(perm => this.allowedReadOtherOrders = perm);
 
   }
 

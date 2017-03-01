@@ -13,10 +13,10 @@ import { routing } from './app.routes';
 import { MenuComponent } from './menu/menu.component';
 import { TruncatePipe } from './truncate.pipe';
 import { FilterPipe } from './filter.pipe';
-import { AngularFireHelper } from "./helpers/angularfirehelper";
-import { LoginHelper } from "./helpers/loginhelper";
-import { AuthGuard } from "./helpers/authguard";
-import { LoginComponent } from './login/login.component'
+import { AngularFireHelper } from './helpers/angularfirehelper';
+import { LoginHelper } from './helpers/loginhelper';
+import { AuthGuard } from './helpers/authguard';
+import { LoginComponent } from './login/login.component';
 import { User } from './model/user';
 import { CheckInHelper } from './helpers/checkinhelper';
 import { SnackBarHelper } from './helpers/snackbarhelper';
@@ -34,11 +34,11 @@ import 'rxjs/add/operator/take';
 
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyDIlT_RN2-aBRUdqe5NrsFu5hmIv3DRCC8",
-  authDomain: "restapp-64952.firebaseapp.com",
-  databaseURL: "https://restapp-64952.firebaseio.com",
-  storageBucket: "restapp-64952.appspot.com",
-  messagingSenderId: "86702685835"
+  apiKey: 'AIzaSyDIlT_RN2-aBRUdqe5NrsFu5hmIv3DRCC8',
+  authDomain: 'restapp-64952.firebaseapp.com',
+  databaseURL: 'https://restapp-64952.firebaseio.com',
+  storageBucket: 'restapp-64952.appspot.com',
+  messagingSenderId: '86702685835'
 };
 
 

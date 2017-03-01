@@ -1,4 +1,5 @@
-import { Injectable, Inject } from "@angular/core";
+import { Injectable, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   AngularFire, AuthProviders, AuthMethods,
   FirebaseObjectObservable, FirebaseListObservable,
@@ -6,16 +7,19 @@ import {
 } from 'angularfire2';
 import { User } from '../model/user';
 import { Order } from '../model/order';
-import { LoginHelper } from './loginhelper';
-import { Router } from '@angular/router';
 import { CheckInHelper } from './checkinhelper';
 import { CheckIn } from '../model/checkin';
-import { Subscription, Subject } from 'rxjs';
 import { Dish } from '../model/dish';
 import { Favorite } from '../model/favorite';
 import { Comment } from '../model/comment';
-import { Observable } from 'rxjs';
+
 import { ClearHelper } from './clearhelper';
+import { LoginHelper } from './loginhelper';
+
+import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 
 @Injectable()
 export class AngularFireHelper {
@@ -65,39 +69,39 @@ export class AngularFireHelper {
   }
 
   userRef() {
-    return this.af.database.object("/users/" + this.lh.user.uid);
+    return this.af.database.object('/users/' + this.lh.user.uid);
   }
 
   updateUser() {
-    this.clearHelper.clear(this.lh.user)
+    this.clearHelper.clear(this.lh.user);
     return this.userRef().update(this.lh.user);
   }
 
   dishRef(key: string) {
-    return this.af.database.object("/menu/" + key);
+    return this.af.database.object('/menu/' + key);
   }
 
   addDish(dish: Dish) {
-    return this.af.database.list("/menu").push(dish);
+    return this.af.database.list('/menu').push(dish);
   }
 
   updateDish(dish: Dish) {
     const key: string = this.clearHelper.clear(dish);
-    return this.af.database.object("/menu/" + key).update(dish);
+    return this.af.database.object('/menu/' + key).update(dish);
   }
 
   removeDish(dish: Dish) {
-    return this.af.database.object("/menu/" + dish.$key).remove();
+    return this.af.database.object('/menu/' + dish.$key).remove();
   }
 
   uploadFile(file: File, path?: string): Observable<any> {
     return new Observable<any>((sub => {
-      let uploadRef = this._uploadFile(file, path);
+      const uploadRef = this._uploadFile(file, path);
       uploadRef.on('state_changed',
         (snapshot) => {
           // Observe state change events such as progress, pause, and resume
           // See below for more detail
-          let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           sub.next(progress);
         },
         (error) => {
@@ -146,7 +150,7 @@ export class AngularFireHelper {
   private registryOnMessage() {
     this.firebaseApp.messaging().onMessage(
       (payload) => {
-        console.log("Message received. ", payload);
+        console.log('Message received. ', payload);
         // [START_EXCLUDE]
         // Update the UI to include the received message.
 
@@ -173,7 +177,7 @@ export class AngularFireHelper {
   tablesRef() {
     return this.af.database.list('/tables', {
       query: {
-        orderByChild: "inUse",
+        orderByChild: 'inUse',
         equalTo: false
       }
     });
@@ -188,7 +192,7 @@ export class AngularFireHelper {
       return this.af.database.list('/menu',
         {
           query: {
-            orderByChild: "category",
+            orderByChild: 'category',
             equalTo: category,
           }
         }
@@ -213,13 +217,13 @@ export class AngularFireHelper {
   }
 
   removeFavorite(favorite: Favorite) {
-    return this.af.database.object("/favorites/" + favorite.$key).remove();
+    return this.af.database.object('/favorites/' + favorite.$key).remove();
   }
 
   favoritesRefByUser() {
     return this.af.database.list('/favorites', {
       query: {
-        orderByChild: "uid",
+        orderByChild: 'uid',
         equalTo: this.lh.user.uid
       }
     });
@@ -240,7 +244,7 @@ export class AngularFireHelper {
   }
 
   checkOut() {
-    return this.af.database.object("/check_ins/" + this.ch.checkIn.$key).update({
+    return this.af.database.object('/check_ins/' + this.ch.checkIn.$key).update({
       orderCheckOutTime: new Date().getTime()
     });
   }
@@ -252,7 +256,7 @@ export class AngularFireHelper {
     const key: string = this.clearHelper.clear(checkIn);
 
     return this.af.database.object('/check_ins/' + key).update(checkIn).then(() => {
-      this.af.database.object("/tables/" + checkIn.tid).update({ inUse: false });
+      this.af.database.object('/tables/' + checkIn.tid).update({ inUse: false });
     });
   }
 
@@ -262,15 +266,15 @@ export class AngularFireHelper {
     const key: string = this.clearHelper.clear(checkIn);
 
     return this.af.database.object('/check_ins/' + key).update(checkIn).then(() => {
-      this.af.database.object("/tables/" + checkIn.tid).update({ inUse: true });
+      this.af.database.object('/tables/' + checkIn.tid).update({ inUse: true });
     });
   }
 
   checkInByUserRef() {
-    return this.af.database.list("/check_ins/", {
+    return this.af.database.list('/check_ins/', {
       query: {
-        orderByChild: "_closed_uid",
-        equalTo: "false" + this.lh.user.uid
+        orderByChild: '_closed_uid',
+        equalTo: 'false' + this.lh.user.uid
       }
     });
   }
@@ -287,22 +291,22 @@ export class AngularFireHelper {
   }
 
   ordersByCheckInRef(checkIn?: CheckIn) {
-    return this.af.database.list("/orders/", {
+    return this.af.database.list('/orders/', {
       query: {
-        orderByChild: "cid",
+        orderByChild: 'cid',
         equalTo: (checkIn ? checkIn.$key : this.ch.checkIn.$key)
       }
-    }).map(items => items.sort((o1: Order, o2: Order) => { return o1.time - o2.time })) as FirebaseListObservable<Order[]>;
+    }).map(items => items.sort((o1: Order, o2: Order) => { return o1.time - o2.time; })) as FirebaseListObservable<Order[]>;
   }
 
   ordersByStatusAndLocalRef(status: string, local: string) {
-    return this.af.database.list("/orders/", {
+    return this.af.database.list('/orders/', {
       query: {
-        orderByChild: "_destination_status",
+        orderByChild: '_destination_status',
         equalTo: local + status,
 
       }
-    }).map(items => items.sort((o1: Order, o2: Order) => { return o1.time - o2.time })) as FirebaseListObservable<Order[]>;
+    }).map(items => items.sort((o1: Order, o2: Order) => { return o1.time - o2.time; })) as FirebaseListObservable<Order[]>;
   }
 
 
@@ -316,27 +320,26 @@ export class AngularFireHelper {
   updateOrder(order: Order) {
     const key: string = this.clearHelper.clear(order);
     order = Order.buildIndex(order);
-    return this.af.database.object("/orders/" + key).update(order);
+    return this.af.database.object('/orders/' + key).update(order);
   }
 
   removeOrderDish(order: Order) {
-    return this.af.database.list("/orders/" + order.$key).remove();
+    return this.af.database.list('/orders/' + order.$key).remove();
   }
 
   commentsByDishRef(dish: Dish) {
     return this.af.database.list('/dish_comments', {
       query: {
-        orderByChild: "did",
+        orderByChild: 'did',
         equalTo: dish.$key
       }
-    }).map(items => items.sort((o1: Comment, o2: Comment) => { return o2.time - o1.time }))
-      .map(items => { return items.splice(0, 15) }) as FirebaseListObservable<Comment[]>;
+    }).map(items => items.sort((o1: Comment, o2: Comment) => { return o2.time - o1.time; })) as FirebaseListObservable<Comment[]>;
   }
 
   ingredientsByDishRef(dish: Dish) {
     return this.af.database.list('/dish_ingredients', {
       query: {
-        orderByChild: "did",
+        orderByChild: 'did',
         equalTo: dish.$key
       }
     });
@@ -355,13 +358,13 @@ export class AngularFireHelper {
   }
 
   userIsAllowed(entity, permission, ownResources: boolean = true): Observable<boolean> {
-    if (this.lh.user.role === "admin") {
+    if (this.lh.user.role === 'admin') {
       return Observable.of(true);
     } else {
-      return this.af.database.object("/permissions/" +
-        (!this.lh.user.role ? "user" : this.lh.user.role) + "/" + entity + "/" +
-        (ownResources ? "own" : "other") + "/" + permission)
-        .map(perm => { return (this.lh.user && this.lh.user.uid && !!perm) ? perm.$value : false });
+      return this.af.database.object('/permissions/' +
+        (!this.lh.user.role ? 'user' : this.lh.user.role) + '/' + entity + '/' +
+        (ownResources ? 'own' : 'other') + '/' + permission)
+        .map(perm => { return (this.lh.user && this.lh.user.uid && !!perm) ? perm.$value : false; });
     }
   }
 
@@ -386,9 +389,9 @@ export class AngularFireHelper {
             this.lh.user.email = auth.google.email;
             this.lh.user.photoURL = auth.google.photoURL;
           } else if (auth.provider === AuthProviders.Password) {
-            this.lh.user.displayName = auth.auth.email;//duuu
+            this.lh.user.displayName = auth.auth.email;
             this.lh.user.email = auth.auth.email;
-            this.lh.user.photoURL = "/assets/nobody.jpg"
+            this.lh.user.photoURL = '/assets/nobody.jpg';
           }
           this.lh.user.provider = auth.provider;
           this.lh.user.uid = auth.uid;

@@ -10,7 +10,9 @@ import { MdlSnackbarComponent } from 'angular2-mdl';
 import { LoginHelper } from '../helpers/loginhelper';
 import { Favorite } from '../model/favorite';
 import { Comment } from '../model/comment';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+
 
 @Component({
   selector: 'app-menu',
@@ -26,12 +28,14 @@ export class MenuComponent implements OnInit {
   public comments: FirebaseListObservable<Comment[]>;
   public ingredients: FirebaseListObservable<any[]>;
 
-  public allowedReadComments: boolean = false;
-  public allowedCreateComments: boolean = false;
-  public allowedCreateFavorites: boolean = false;
-  public allowedDeleteFavorites: boolean = false;
+  public allowedReadComments = false;
+  public allowedCreateComments = false;
+  public allowedCreateFavorites = false;
+  public allowedDeleteFavorites = false;
 
-  private comment: Comment = new Comment();
+  public moreInfoMenu: any;
+
+  public comment: Comment = new Comment();
 
   constructor(private afh: AngularFireHelper,
     private sbh: SnackBarHelper,
@@ -45,7 +49,7 @@ export class MenuComponent implements OnInit {
 
     this.working = true;
 
-    let order: Order = new Order();
+    const order: Order = new Order();
 
     order.table = this.ch.checkIn.table;
     order.did = dish.$key;
@@ -56,9 +60,9 @@ export class MenuComponent implements OnInit {
     order.destination = dish.destination;
 
     this.afh.orderDish(order).then((ordered) => {
-      this.sbh.showInfo(order.dishName + " solicitado.", "Cancelar",
+      this.sbh.showInfo(order.dishName + ' solicitado.', 'Cancelar',
         () => {
-          order.$key = ordered.key
+          order.$key = ordered.key;
           this.removeLastOrderDish(order);
         },
         () => {
@@ -78,7 +82,7 @@ export class MenuComponent implements OnInit {
   }
 
   addComment() {
-    let did: string = this.comment.did;
+    const did: string = this.comment.did;
 
     this.afh.addComment(this.comment).then(() => {
       this.comment = new Comment();
@@ -90,22 +94,22 @@ export class MenuComponent implements OnInit {
   toggleFavorite(dish: Dish) {
     this.working = true;
 
-    let favorited: Favorite = this.verifyFavoriteDish(dish);
+    const favorited: Favorite = this.verifyFavoriteDish(dish);
 
     if (!favorited) {
 
-      let favorite: Favorite = new Favorite();
+      const favorite: Favorite = new Favorite();
       favorite.did = dish.$key;
 
       this.afh.addFavorite(favorite).then(() => {
-        this.sbh.showInfo(dish.name + " adicionado aos favoritos", "", () => { },
+        this.sbh.showInfo(dish.name + ' adicionado aos favoritos', '', () => { },
           () => {
             this.working = false;
           });
       });
     } else {
       this.afh.removeFavorite(favorited).then(() => {
-        this.sbh.showInfo(dish.name + " removido dos favoritos", "", () => { },
+        this.sbh.showInfo(dish.name + ' removido dos favoritos', '', () => { },
           () => {
             this.working = false;
           });
@@ -116,7 +120,7 @@ export class MenuComponent implements OnInit {
   verifyFavoriteDish(dish: Dish) {
     if (this.favorites) {
       for (let i = 0; i < this.favorites.length; i++) {
-        if (this.favorites[i].did == dish.$key) {
+        if (this.favorites[i].did === dish.$key) {
           return this.favorites[i];
         }
       }
@@ -127,7 +131,7 @@ export class MenuComponent implements OnInit {
   private removeLastOrderDish(order: Order) {
     this.working = true;
     this.afh.removeOrderDish(order).then(() => {
-      this.sbh.showInfo("Última solicitação cancelada.", "", () => { }, () => {
+      this.sbh.showInfo('Última solicitação cancelada.', '', () => { }, () => {
         this.working = false;
       });
 
@@ -136,11 +140,11 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
 
-    this.afh.userIsAllowed("dish_comments", "r", false).subscribe(perm => this.allowedReadComments = perm);
-    this.afh.userIsAllowed("dish_comments", "c").subscribe(perm => this.allowedCreateComments = perm);
+    this.afh.userIsAllowed('dish_comments', 'r', false).subscribe(perm => this.allowedReadComments = perm);
+    this.afh.userIsAllowed('dish_comments', 'c').subscribe(perm => this.allowedCreateComments = perm);
 
-    this.afh.userIsAllowed("favorites", "c").subscribe(perm => this.allowedCreateFavorites = perm);
-    this.afh.userIsAllowed("favorites", "d").subscribe(perm => this.allowedDeleteFavorites = perm);
+    this.afh.userIsAllowed('favorites', 'c').subscribe(perm => this.allowedCreateFavorites = perm);
+    this.afh.userIsAllowed('favorites', 'd').subscribe(perm => this.allowedDeleteFavorites = perm);
 
     let subMenu: Subscription;
     let subFav: Subscription;
@@ -153,14 +157,14 @@ export class MenuComponent implements OnInit {
         subFav.unsubscribe();
       }
 
-      if (params["category"] !== "fav") {
-        subMenu = this.afh.menuRef(params["category"]).subscribe((items) => {
+      if (params['category'] !== 'fav') {
+        subMenu = this.afh.menuRef(params['category']).subscribe((items) => {
           this.items = items;
         });
       }
       subFav = this.afh.favoritesRefByUser()
         .subscribe((favorites) => {
-          if (params["category"] === "fav") {
+          if (params['category'] === 'fav') {
             this.items = [];
             subMenu = this.afh.menuRef().subscribe((items) => {
               favorites.forEach((favorite) => {
