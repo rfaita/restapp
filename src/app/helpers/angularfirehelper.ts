@@ -151,6 +151,9 @@ export class AngularFireHelper {
         // Update the UI to include the received message.
 
         // [END_EXCLUDE]
+      },
+      (error) => {
+        console.log(error);
       });
 
   }
